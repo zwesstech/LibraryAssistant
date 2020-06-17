@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="derby">
+    <CLASSES>
+      <root url="jar://D:/Github/javafx/Library-Assistant-master/libs/derby.jar!/" />
+      <root url="jar://D:/Github/javafx/Library-Assistant-master/libs/derbyclient.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

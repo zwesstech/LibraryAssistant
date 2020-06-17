@@ -14,8 +14,8 @@ public class DatabaseHandler {
     public DatabaseHandler(){
         createConnection();
         setupTable();
+        setupMemberTable();
     }
-
 
     private static void createConnection() {
         try {
@@ -79,6 +79,31 @@ public class DatabaseHandler {
         }
         finally {
         }
+    }
+
+    private void setupMemberTable() {
+        String TABLE_NAME = "MEMBER";
+        try{
+            stmt = conn.createStatement();
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
+            if (tables.next()){
+                System.out.println("Table " + TABLE_NAME + "already exists for go!");
+            }else {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "("
+                        + "         id varchar(200) primary key,\n"
+                        + "         name varchar(200),\n"
+                        + "         mobile varchar(20),\n"
+                        + "         email varchar(100)\n"
+                        + ")");
+            }
+
+        }catch (SQLException e){
+            System.err.println(e.getMessage() + " ... setupDatabase");
+        }finally {
+
+        }
+
     }
 }
 

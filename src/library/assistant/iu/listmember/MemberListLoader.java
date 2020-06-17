@@ -1,4 +1,4 @@
-package library.assistant.iu.listbook;
+package library.assistant.iu.listmember;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,11 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class BookListLoader extends Application {
-
+public class MemberListLoader extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("book_list.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("member_list.fxml"));
         primaryStage.setTitle("Library App");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -21,4 +20,3 @@ public class BookListLoader extends Application {
         launch(args);
     }
 }
-

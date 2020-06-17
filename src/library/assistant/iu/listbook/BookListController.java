@@ -83,14 +83,14 @@ public class BookListController implements Initializable {
         tableView.getItems().setAll(list);
     }
 
-    public class Book{
+    public static class Book{
         private final SimpleStringProperty title;
         private final SimpleStringProperty id;
         private final SimpleStringProperty author;
         private final SimpleStringProperty publisher;
         private final SimpleBooleanProperty availability;
 
-        Book(String title, String id, String author, String pub, Boolean avail){
+        public Book(String title, String id, String author, String pub, Boolean avail){
             this.title = new SimpleStringProperty(title);
             this.id = new SimpleStringProperty(id);
             this.author = new SimpleStringProperty(author);

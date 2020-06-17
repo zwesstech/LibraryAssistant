@@ -6,13 +6,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BookAddController implements Initializable {
 
+    @FXML
+    private AnchorPane rootPane;
 
     @FXML
     private JFXTextField title;
@@ -37,6 +45,8 @@ public class BookAddController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         databaseHandler = new DatabaseHandler();
+
+        checkData();
     }
 
     @FXML
@@ -76,6 +86,20 @@ public class BookAddController implements Initializable {
 
     @FXML
     void cancel(ActionEvent event) {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.close();
+    }
 
+    private void checkData() {
+        String qu = "SELECT title FROM BOOK";
+        ResultSet rs = databaseHandler.execQuery(qu);
+        try {
+        while (rs.next()){
+                String titles = rs.getString("title");
+                System.out.println(titles);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

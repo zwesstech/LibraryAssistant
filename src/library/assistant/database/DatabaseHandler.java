@@ -1,5 +1,6 @@
 package library.assistant.database;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class DatabaseHandler {
@@ -25,7 +26,7 @@ public class DatabaseHandler {
         }
     }
 
-        void setupTable(){
+    void setupTable(){
         String TABLE_NAME = "BOOK";
         try{
             stmt = conn.createStatement();
@@ -36,10 +37,10 @@ public class DatabaseHandler {
             }else {
                 stmt.execute("CREATE TABLE " + TABLE_NAME + "("
                         + "         id varchar(200) primary key,\n"
-                                + "         title varchar(200),\n"
-                                + "         author varchar(200),\n"
-                                + "         publisher varchar(100),\n"
-                                + "         isAvail boolean default true"
+                        + "         title varchar(200),\n"
+                        + "         author varchar(200),\n"
+                        + "         publisher varchar(100),\n"
+                        + "         isAvail boolean default true"
                         +
                         ")");
             }
@@ -49,6 +50,35 @@ public class DatabaseHandler {
         }finally {
 
         }
+    }
+    public ResultSet execQuery(String query) {
+        ResultSet result;
+        try {
+            stmt = conn.createStatement();
+            result = stmt.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            System.out.println("Exception at execQuery:dataHandler" + ex.getLocalizedMessage());
+            return null;
+        }
+        finally {
+        }
+        return result;
+    }
+
+    public boolean execAction(String qu) {
+        try {
+            stmt = conn.createStatement();
+            stmt.execute(qu);
+            return true;
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error:" + ex.getMessage(), "Error Occured", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + ex.getLocalizedMessage());
+            return false;
+        }
+        finally {
         }
     }
+}
 

@@ -40,7 +40,7 @@ public class MemberAddController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        handler = new DatabaseHandler();
+        handler = DatabaseHandler.getInstance();
     }
 
     @FXML

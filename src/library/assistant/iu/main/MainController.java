@@ -42,6 +42,15 @@ public class MainController implements Initializable {
     @FXML
     private Text bookStatus;
 
+    @FXML
+    private TextField memberIDInput;
+
+    @FXML
+    private Text memberName;
+
+    @FXML
+    private Text memberMobile;
+
     DatabaseHandler databaseHandler;
 
     @Override
@@ -87,6 +96,7 @@ public class MainController implements Initializable {
 
     @FXML
     void loadBookInfo(ActionEvent event) {
+        clearBookCache();
         String id = bookIDInput.getText();
         String qu = "SELECT * FROM BOOK WHERE id = '" + id + "'";
         ResultSet rs = databaseHandler.execQuery(qu);
@@ -112,5 +122,44 @@ public class MainController implements Initializable {
         }
 
     }
+
+    void clearBookCache(){
+        bookName.setText("");
+        bookAuthor.setText("");
+        bookStatus.setText("");
+    }
+
+    void clearMemberCache(){
+        memberName.setText("");
+        memberMobile.setText("");
+    }
+
+    @FXML
+    void loadMemberInfo(ActionEvent event) {
+        clearMemberCache();
+        String id = memberIDInput.getText();
+        String qu = "SELECT * FROM MEMBER WHERE id = '" + id + "'";
+        ResultSet rs = databaseHandler.execQuery(qu);
+        Boolean flag = false;
+        try {
+            while (rs.next()){
+                String mName = rs.getString("name");
+                String mMobile = rs.getString("mobile");
+
+                memberName.setText(mName);
+                memberMobile.setText(mMobile);
+
+                flag = true;
+            }
+            if (!flag){
+                memberName.setText("No Such Member Available");
+            }
+        }catch (SQLException ex){
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
 
 }

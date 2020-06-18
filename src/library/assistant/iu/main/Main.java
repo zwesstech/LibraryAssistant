@@ -16,7 +16,10 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            DatabaseHandler.getInstance();
+            new Thread(()-> {
+                    DatabaseHandler.getInstance();
+            }).start();
+
         }
 
         public static void main(String[] args) {

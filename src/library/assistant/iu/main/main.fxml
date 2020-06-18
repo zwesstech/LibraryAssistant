@@ -140,7 +140,7 @@
                                     </HBox>
                                     <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="162.0" prefWidth="579.0" style="-fx-background-color: #e7e7e7e7;">
                                        <children>
-                                          <TextField prefHeight="31.0" prefWidth="172.0" promptText="Member ID">
+                                          <TextField fx:id="memberIDInput" onAction="#loadMemberInfo" prefHeight="31.0" prefWidth="172.0" promptText="Member ID">
                                              <HBox.margin>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                              </HBox.margin>
@@ -150,12 +150,12 @@
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                              </HBox.margin>
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member Name" textAlignment="CENTER" wrappingWidth="351.3583984375">
+                                                <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Name" textAlignment="CENTER" wrappingWidth="351.3583984375">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </Text>
-                                                <Text layoutX="10.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" textAlignment="CENTER" wrappingWidth="351.3583984375">
+                                                <Text fx:id="memberMobile" layoutX="10.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" textAlignment="CENTER" wrappingWidth="351.3583984375">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>

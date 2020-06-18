@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.main.MainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -47,7 +47,7 @@
          <right>
             <VBox prefHeight="491.0" prefWidth="177.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="108.0" prefWidth="170.0" text="Add Member">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="108.0" prefWidth="170.0" text="Add Member">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -56,7 +56,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="170.0" text="Add Book">
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="108.0" prefWidth="170.0" text="Add Book">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -65,7 +65,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="170.0" text="View Members">
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="108.0" prefWidth="170.0" text="View Members">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -74,7 +74,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="170.0" text="View Books">
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="108.0" prefWidth="170.0" text="View Books">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -190,12 +190,12 @@
                                        <children>
                                           <JFXButton alignment="CENTER" text="Renew">
                                              <HBox.margin>
-                                                <Insets left="10.0" />
+                                                <Insets right="20.0" />
                                              </HBox.margin>
                                           </JFXButton>
                                           <JFXButton alignment="CENTER" layoutX="268.0" layoutY="36.0" text="Submission">
                                              <HBox.margin>
-                                                <Insets left="10.0" />
+                                                <Insets right="20.0" />
                                              </HBox.margin>
                                           </JFXButton>
                                        </children>

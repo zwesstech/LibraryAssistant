@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -95,7 +98,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void loadBookInfo(ActionEvent event) {
+   private void loadBookInfo(ActionEvent event) {
         clearBookCache();
         String id = bookIDInput.getText();
         String qu = "SELECT * FROM BOOK WHERE id = '" + id + "'";
@@ -135,7 +138,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void loadMemberInfo(ActionEvent event) {
+    private void loadMemberInfo(ActionEvent event) {
         clearMemberCache();
         String id = memberIDInput.getText();
         String qu = "SELECT * FROM MEMBER WHERE id = '" + id + "'";
@@ -161,5 +164,45 @@ public class MainController implements Initializable {
 
     }
 
+
+    @FXML
+    private void loadIssueOperation(ActionEvent event) {
+        String memberID = memberIDInput.getText();
+        String bookID = bookIDInput.getText();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Issue Operation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to issue book " + bookName.getText() + "\n to " + memberName.getText());
+
+        Optional<ButtonType> response = alert.showAndWait();
+        if (response.get() == ButtonType.OK){
+            String str = "INSERT INTO ISSUE(memberID,bookID) VALUES ("
+                    + "'" + memberID + "',"
+                    + "'" + bookID + "')";
+            String str2 = "UPDATE BOOK SET isAvail = false WHERE id = '" + bookID + "'";
+            System.out.println(str + " and " + str2);
+
+            if (databaseHandler.execAction(str) && databaseHandler.execAction(str2)){
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Success");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Book Issue Complete");
+                alert1.showAndWait();
+
+            }else {
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Failed");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Issue Operation Failed");
+                alert1.showAndWait();
+            }
+        }else {
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("Cancelled");
+            alert1.setHeaderText(null);
+            alert1.setContentText("Issue Operation Cancelled");
+        }
+    }
 
 }

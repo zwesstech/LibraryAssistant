@@ -169,7 +169,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton prefHeight="30.0" prefWidth="100.0" text="Issue" />
+                                          <JFXButton onAction="#loadIssueOperation" prefHeight="30.0" prefWidth="100.0" text="Issue" />
                                        </children>
                                     </HBox>
                                  </children>

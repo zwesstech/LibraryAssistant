@@ -310,5 +310,47 @@ public class MainController implements Initializable {
         }
 
     }
+
+    @FXML
+    void loadRenewOp(ActionEvent event) {
+        if (!isReadyForSubmission) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to renew");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Renew Operation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to renew book ?");
+
+        Optional<ButtonType> response = alert.showAndWait();
+        if (response.get() == ButtonType.OK) {
+            String ac = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE BOOKID = '" + bookID.getText() + "'";
+            System.out.println(ac);
+            if (databaseHandler.execAction(ac)) {
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Book Has Been Renewed");
+                alert.showAndWait();
+            } else {
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Renew Has Failed");
+                alert.showAndWait();
+            }
+        }else {
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cancelled");
+            alert.setHeaderText(null);
+            alert.setContentText("Renew Operation Cancelled");
+            alert.showAndWait();
+        }
+    }
 }
 

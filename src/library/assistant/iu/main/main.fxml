@@ -199,7 +199,7 @@
                                  <bottom>
                                     <HBox alignment="CENTER" prefHeight="83.0" prefWidth="579.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <JFXButton alignment="CENTER" text="Renew">
+                                          <JFXButton alignment="CENTER" onAction="#loadRenewOp" text="Renew">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>

@@ -183,14 +183,14 @@
                            <children>
                               <BorderPane prefHeight="452.0" prefWidth="579.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <top>
-                                    <JFXTextField labelFloat="true" prefHeight="23.0" prefWidth="279.0" promptText="Enter BOOK ID" BorderPane.alignment="CENTER">
+                                    <JFXTextField fx:id="bookID" labelFloat="true" onAction="#loadBookInfoTwo" prefHeight="23.0" prefWidth="279.0" promptText="Enter BOOK ID" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets left="150.0" right="150.0" top="20.0" />
                                        </BorderPane.margin>
                                     </JFXTextField>
                                  </top>
                                  <center>
-                                    <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <ListView fx:id="issueDataList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <padding>
                                           <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                                        </padding>

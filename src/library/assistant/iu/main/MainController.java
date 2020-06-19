@@ -1,6 +1,9 @@
 package library.assistant.iu.main;
 
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -20,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -53,6 +58,12 @@ public class MainController implements Initializable {
 
     @FXML
     private Text memberMobile;
+
+    @FXML
+    private JFXTextField bookID;
+
+    @FXML
+    private ListView<String> issueDataList;
 
     DatabaseHandler databaseHandler;
 
@@ -205,4 +216,51 @@ public class MainController implements Initializable {
         }
     }
 
-}
+    @FXML
+    void loadBookInfoTwo(ActionEvent event) {
+        ObservableList<String> issueData = FXCollections.observableArrayList();
+
+        String id = bookID.getText();
+        String qu = "SELECT * FROM ISSUE WHERE bookID = '" + id + "'";
+        ResultSet rs = databaseHandler.execQuery(qu);
+
+        try {
+            while (rs.next()){
+                String mBookID = id;
+                String mMemberID = rs.getString("memberID");
+                Timestamp mIssueTime = rs.getTimestamp("issueTime");
+                int mRenewCount = rs.getInt("renew_count");
+
+                issueData.add("Issue Data and Time :" + mIssueTime.toGMTString());
+                issueData.add("Renew Count :" + mRenewCount);
+
+                issueData.add("Book Information:-");
+                qu = "SELECT * FROM BOOK WHERE ID = '" + mBookID + "'";
+                ResultSet r1 = databaseHandler.execQuery(qu);
+                while (r1.next()){
+                    issueData.add("Book Name :" + r1.getString("title"));
+                    issueData.add("Book ID :" + r1.getString("id"));
+                    issueData.add("Book Author :" + r1.getString("author"));
+                    issueData.add("Book Publisher :" + r1.getString("publisher"));
+                }
+                qu = "SELECT * FROM MEMBER WHERE ID = '" + mMemberID + "'";
+                r1 = databaseHandler.execQuery(qu);
+                issueData.add("Member Information:-");
+                while (r1.next()){
+                    issueData.add("Name :" + r1.getString("name"));
+                    issueData.add("Mobile :" + r1.getString("mobile"));
+                    issueData.add("Email :" + r1.getString("email"));
+
+                }
+            }
+
+        }catch (SQLException ex){
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        issueDataList.getItems().setAll(issueData);
+        }
+
+    }
+
+

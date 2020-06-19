@@ -204,7 +204,7 @@
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton alignment="CENTER" layoutX="268.0" layoutY="36.0" text="Submission">
+                                          <JFXButton alignment="CENTER" layoutX="268.0" layoutY="36.0" onAction="#loadSubmissionOp" text="Submission">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>

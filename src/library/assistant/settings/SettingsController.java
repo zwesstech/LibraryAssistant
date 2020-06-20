@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,11 +31,23 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
-
+        ((Stage)nDaysWithoutFine.getScene().getWindow()).close();
     }
 
     @FXML
    private void handleSaveButtonAction(ActionEvent event) {
+        int nDays = Integer.parseInt(nDaysWithoutFine.getText());
+        float fine = Float.parseFloat(finePerDay.getText());
+        String uName = username.getText();
+        String pass = password.getText();
+
+        Preferences preferences = Preferences.getPreferences();
+        preferences.setnDaysWithoutFine(nDays);
+        preferences.setFinePerDay(fine);
+        preferences.setUsername(uName);
+        preferences.setPassword(pass);
+
+        Preferences.writePreferenceToFile(preferences);
 
     }
 

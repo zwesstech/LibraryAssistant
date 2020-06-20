@@ -98,6 +98,11 @@ public class MainController implements Initializable {
         loadWindow("/library/assistant/iu/listmember/member_list.fxml", "Member List");
     }
 
+    @FXML
+    void loadSettings(ActionEvent event) {
+        loadWindow("/library/assistant/settings/settings.fxml", "Settings");
+    }
+
     void loadWindow(String loc, String title) {
         try {
             Parent parent = FXMLLoader.load(getClass().getResource(loc));
@@ -352,5 +357,7 @@ public class MainController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
 }
 

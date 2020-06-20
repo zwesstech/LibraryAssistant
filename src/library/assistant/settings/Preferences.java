@@ -1,6 +1,7 @@
 package library.assistant.settings;
 
 import com.google.gson.Gson;
+import library.assistant.alert.AlertMaker;
 import library.assistant.iu.main.MainController;
 
 import java.io.*;
@@ -84,5 +85,26 @@ public class Preferences {
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
         }
         return preferences;
+    }
+
+    public static void writePreferenceToFile(Preferences preferences){
+        Writer writer = null;
+        try {
+            Gson gson = new Gson();
+            writer = new FileWriter(CONFIG_FILE);
+            gson.toJson(preferences, writer);
+
+            AlertMaker.showSimpleAlert("Success", "Settings updated");
+        } catch (IOException e) {
+            Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
+            AlertMaker.showErrorMessage(e, "Failed", "Can't save configuration file");
+        }finally {
+
+            try {
+                writer.close();
+            } catch (IOException e) {
+                Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 }

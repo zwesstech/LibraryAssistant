@@ -20,8 +20,6 @@ public class SettingsLoader extends Application {
             DatabaseHandler.getInstance();
         }).start();
 
-        Preferences.initConfig();
-
     }
 
     public static void main(String[] args) {

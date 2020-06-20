@@ -11,6 +11,11 @@ import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initDefaultValues();
+    }
+
     @FXML
     private JFXTextField nDaysWithoutFine;
 
@@ -24,17 +29,20 @@ public class SettingsController implements Initializable {
     private JFXPasswordField password;
 
     @FXML
-    void handleCancelButtonAction(ActionEvent event) {
+    private void handleCancelButtonAction(ActionEvent event) {
 
     }
 
     @FXML
-    void handleSaveButtonAction(ActionEvent event) {
+   private void handleSaveButtonAction(ActionEvent event) {
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
+    private void initDefaultValues(){
+        Preferences preferences = Preferences.getPreferences();
+        nDaysWithoutFine.setText(String.valueOf(preferences.getnDaysWithoutFine()));
+        finePerDay.setText(String.valueOf(preferences.getFinePerDay()));
+        username.setText(String.valueOf(preferences.getUsername()));
+        password.setText(String.valueOf(preferences.getPassword()));
     }
 }

@@ -10,7 +10,7 @@ import library.assistant.database.DatabaseHandler;
 public class Main extends Application {
         @Override
         public void start(Stage primaryStage) throws Exception {
-            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/library/assistant/iu/login/login.fxml"));
             primaryStage.setTitle("Library App");
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);

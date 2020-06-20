@@ -15,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,6 +32,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainController implements Initializable {
+
+    @FXML
+    private StackPane rootPane;
 
     @FXML
     private HBox book_info;
@@ -358,6 +362,41 @@ public class MainController implements Initializable {
         }
     }
 
+    private Stage getStage(){
+        return (Stage)rootPane.getScene().getWindow();
+    }
+
+    @FXML
+    private void handleMenuClose(ActionEvent event) {
+        getStage().close();
+    }
+
+    @FXML
+    private void handleMenuAddBook(ActionEvent event) {
+        loadWindow("/library/assistant/iu/addbook/add_book.fxml", "Add New Book");
+    }
+
+    @FXML
+    private void handleMenuAddMember(ActionEvent event) {
+        loadWindow("/library/assistant/iu/addmember/member_add.fxml", "Add New Member");
+    }
+
+
+    @FXML
+    private void handleMenuViewBook(ActionEvent event) {
+        loadWindow("/library/assistant/iu/listbook/book_list.fxml", "Book List");
+    }
+
+    @FXML
+    private void handleMenuViewMember(ActionEvent event) {
+        loadWindow("/library/assistant/iu/listmember/member_list.fxml", "Member List");
+    }
+
+    @FXML
+    void handleMenuFullScreen(ActionEvent event) {
+        Stage stage = getStage();
+        stage.setFullScreen(stage.isFullScreen());
+    }
 
 }
 

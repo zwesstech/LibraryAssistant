@@ -11,5 +11,6 @@
     <orderEntry type="library" name="derby" level="project" />
     <orderEntry type="library" name="derbyclient" level="project" />
     <orderEntry type="library" name="gson-2.8.1" level="project" />
+    <orderEntry type="library" name="commons-codec-1.11" level="project" />
   </component>
 </module>

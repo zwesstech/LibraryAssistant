@@ -6,15 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
+import library.assistant.util.LibraryAssistantUtil;
 
 public class Main extends Application {
         @Override
-        public void start(Stage primaryStage) throws Exception {
+        public void start(Stage stage) throws Exception {
             Parent root = FXMLLoader.load(getClass().getResource("/library/assistant/iu/login/login.fxml"));
-            primaryStage.setTitle("Library App");
+
+            stage.setTitle("Library App");
             Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+
+            stage.setScene(scene);
+            stage.show();
+
+            LibraryAssistantUtil.setStageIcon(stage);
 
             new Thread(()-> {
                     DatabaseHandler.getInstance();

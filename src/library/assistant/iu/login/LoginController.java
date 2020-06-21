@@ -73,7 +73,7 @@ public class LoginController implements Initializable {
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

@@ -1,7 +1,11 @@
 package library.assistant.database;
 
+import library.assistant.iu.listbook.BookListController;
+
 import javax.swing.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DatabaseHandler {
 
@@ -147,6 +151,23 @@ public class DatabaseHandler {
 
         }
 
+    }
+
+    public boolean deleteBook(BookListController.Book book){
+        try {
+        String deleteStatement = "DELETE FROM BOOK WHERE ID = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
+            stmt.setString(1, book.getId());
+            int res = stmt.executeUpdate();
+            if (res == 1){
+                return true;
+            }
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
 

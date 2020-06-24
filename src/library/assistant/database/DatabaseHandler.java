@@ -169,5 +169,23 @@ public class DatabaseHandler {
         }
         return false;
     }
+
+    public boolean isBookAlreadyIssued(BookListController.Book book){
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE bookid=?";
+            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            stmt.setString(1, book.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                int count = rs.getInt(1);
+                System.out.println(count);
+                return (count > 0);
+                }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
 

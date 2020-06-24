@@ -97,6 +97,10 @@ public class BookListController implements Initializable {
             AlertMaker.showErrorMessage("No Book selected", "Please select a book for deletion");
             return;
         }
+        if (DatabaseHandler.getInstance().isBookAlreadyIssued(selectedForDeletion)){
+            AlertMaker.showErrorMessage("Can't be deleted", "This book is already issued and can't be deleted.");
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Deleting Book");
         alert.setContentText("Are you sure you want to delete the book: " + selectedForDeletion.getTitle() + " ?");

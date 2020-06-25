@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.listbook.BookListController;
 
@@ -41,7 +42,10 @@ public class BookAddController implements Initializable {
     @FXML
     private JFXButton cancelButton;
 
+    private Boolean isInEditMode = Boolean.FALSE;
+
     DatabaseHandler databaseHandler;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,6 +68,12 @@ public class BookAddController implements Initializable {
             alert.showAndWait();
             return;
         }
+            if (isInEditMode){
+                handleEditOperation();
+                return;
+            }
+
+
         String qu = "INSERT INTO BOOK VALUES ("+
                 "'" + bookID +"',"+
                 "'" + bookName +"',"+
@@ -110,5 +120,15 @@ public class BookAddController implements Initializable {
         author.setText(book.getAuthor());
         publisher.setText(book.getPublisher());
         id.setEditable(false);
+        isInEditMode = Boolean.TRUE;
+    }
+
+    private void handleEditOperation() {
+        BookListController.Book book = new BookListController.Book(title.getText(), id.getText(), author.getText(), publisher.getText(), true);
+        if (databaseHandler.updateBook(book)){
+            AlertMaker.showSimpleAlert("Success", "Book Updated");
+        }else{
+            AlertMaker.showErrorMessage("Failed", "Can't update book");
+        }
     }
 }

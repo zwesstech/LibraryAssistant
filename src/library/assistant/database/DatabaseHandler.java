@@ -189,6 +189,39 @@ public class DatabaseHandler {
         return false;
     }
 
+    public boolean deleteMember(MemberListController.Member member) {
+        try {
+            String deleteStatement = "DELETE FROM MEMBER WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
+            stmt.setString(1, member.getId());
+            int res = stmt.executeUpdate();
+            if (res == 1){
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean isMemberHasAnyBooks(MemberListController.Member member){
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE memberID=?";
+            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            stmt.setString(1, member.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                int count = rs.getInt(1);
+                System.out.println(count);
+                return (count > 0);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public boolean updateBook(BookListController.Book book){
         try {
             String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";

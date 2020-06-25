@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,6 +90,32 @@ public class MemberListController implements Initializable {
 
     @FXML
     void handleMemberDelete(ActionEvent event) {
+        Member selectedForDeletion =  tableView.getSelectionModel().getSelectedItem();
+        if (selectedForDeletion == null){
+
+            AlertMaker.showErrorMessage("No Book selected", "Please select a book for deletion");
+            return;
+        }
+        if (DatabaseHandler.getInstance().isMemberHasAnyBooks(selectedForDeletion)){
+            AlertMaker.showErrorMessage("Can't be deleted", "This member has some books.");
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deleting member");
+        alert.setContentText("Are you sure you want to remove this member: " + selectedForDeletion.getName() + " ?");
+        Optional<ButtonType> answer = alert.showAndWait();
+        if (answer.get() == ButtonType.OK){
+            Boolean result = DatabaseHandler.getInstance().deleteMember(selectedForDeletion);
+            if (result){
+                AlertMaker.showSimpleAlert("Member deleted", selectedForDeletion.getName() + " was deleted successfully.");
+                list.remove(selectedForDeletion);
+            }else {
+                AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getName() + " could not be deleted");
+            }
+
+        }else {
+            AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
+        }
 
     }
 

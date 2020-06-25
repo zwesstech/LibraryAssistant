@@ -6,17 +6,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.addbook.BookAddController;
+import library.assistant.iu.main.MainController;
+import library.assistant.util.LibraryAssistantUtil;
 
+import java.awt.print.Book;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -116,6 +125,35 @@ public class BookListController implements Initializable {
 
         }else {
             AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
+        }
+
+    }
+
+    @FXML
+    void handleBookEditOption(ActionEvent event) {
+
+        Book selectedForEdit =  tableView.getSelectionModel().getSelectedItem();
+        if (selectedForEdit == null){
+
+            AlertMaker.showErrorMessage("No Book selected", "Please select a book to Edit");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/assistant/iu/addbook/add_book.fxml"));
+            Parent parent = loader.load();
+
+            BookAddController controller = (BookAddController) loader.getController();
+            controller.inflateUI(selectedForEdit);
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle("Edit Book");
+            stage.setScene(new Scene(parent));
+            stage.show();
+
+            LibraryAssistantUtil.setStageIcon(stage);
+
+        } catch (IOException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }

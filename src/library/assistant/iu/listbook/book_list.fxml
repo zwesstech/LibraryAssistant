@@ -22,7 +22,8 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Delete" />
+                <MenuItem mnemonicParsing="false" onAction="#handleBookEditOption" text="Edit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Delete" />
               </items>
             </ContextMenu>
          </contextMenu>

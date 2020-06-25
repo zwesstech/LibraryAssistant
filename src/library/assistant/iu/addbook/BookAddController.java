@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
+import library.assistant.iu.listbook.BookListController;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -101,5 +102,13 @@ public class BookAddController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void inflateUI(BookListController.Book book){
+        title.setText(book.getTitle());
+        id.setText(book.getId());
+        author.setText(book.getAuthor());
+        publisher.setText(book.getPublisher());
+        id.setEditable(false);
     }
 }

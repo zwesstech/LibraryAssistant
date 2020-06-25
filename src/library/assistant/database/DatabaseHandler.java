@@ -1,6 +1,7 @@
 package library.assistant.database;
 
 import library.assistant.iu.listbook.BookListController;
+import library.assistant.iu.listmember.MemberListController;
 
 import javax.swing.*;
 import java.sql.*;
@@ -196,6 +197,23 @@ public class DatabaseHandler {
             stmt.setString(2, book.getAuthor());
             stmt.setString(3, book.getPublisher());
             stmt.setString(4, book.getId());
+            int res = stmt.executeUpdate();
+            return (res > 0);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean updateMember(MemberListController.Member member){
+        try {
+            String update = "UPDATE MEMBER SET NAME=?, EMAIL=?, MOBILE=? WHERE ID=?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, member.getName());
+            stmt.setString(2, member.getEmail());
+            stmt.setString(3, member.getMobile());
+            stmt.setString(4, member.getId());
             int res = stmt.executeUpdate();
             return (res > 0);
 

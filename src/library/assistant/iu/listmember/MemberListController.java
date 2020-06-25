@@ -4,15 +4,26 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.addbook.BookAddController;
+import library.assistant.iu.addmember.MemberAddController;
 import library.assistant.iu.listbook.BookListController;
+import library.assistant.iu.main.MainController;
+import library.assistant.util.LibraryAssistantUtil;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +54,6 @@ public class MemberListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
         loadData();
-
     }
 
     private void initCol() {
@@ -54,6 +64,8 @@ public class MemberListController implements Initializable {
     }
 
     private void loadData() {
+        list.clear();
+
         DatabaseHandler handler = DatabaseHandler.getInstance();
         String qu = "SELECT * FROM MEMBER";
         ResultSet rs = handler.execQuery(qu);
@@ -71,6 +83,47 @@ public class MemberListController implements Initializable {
         }
 
         tableView.getItems().setAll(list);
+    }
+
+    @FXML
+    void handleMemberDelete(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleMemberEdit(ActionEvent event) {
+        Member selectedForEdit =  tableView.getSelectionModel().getSelectedItem();
+        if (selectedForEdit == null){
+
+            AlertMaker.showErrorMessage("No Member selected", "Please select a member to Edit");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/assistant/iu/addmember/member_add.fxml"));
+            Parent parent = loader.load();
+
+            MemberAddController controller = (MemberAddController) loader.getController();
+            controller.inflateUI(selectedForEdit);
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle("Edit Member");
+            stage.setScene(new Scene(parent));
+            stage.show();
+
+            LibraryAssistantUtil.setStageIcon(stage);
+
+            stage.setOnCloseRequest((e)->{
+                handleRefresh(new ActionEvent());
+            });
+
+        } catch (IOException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    @FXML
+    void handleRefresh(ActionEvent event) {
+        loadData();
     }
 
     public static class Member{

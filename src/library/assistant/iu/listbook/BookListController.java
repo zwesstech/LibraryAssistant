@@ -77,6 +77,7 @@ public class BookListController implements Initializable {
     }
 
     private void loadData() {
+        list.clear();
         DatabaseHandler handler = DatabaseHandler.getInstance();
         String qu = "SELECT * FROM BOOK";
         ResultSet rs = handler.execQuery(qu);
@@ -152,10 +153,19 @@ public class BookListController implements Initializable {
 
             LibraryAssistantUtil.setStageIcon(stage);
 
+            stage.setOnCloseRequest((e)->{
+                handleRefresh(new ActionEvent());
+            });
+
         } catch (IOException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
 
+    }
+
+    @FXML
+    void handleRefresh(ActionEvent event) {
+        loadData();
     }
 
     public static class Book{

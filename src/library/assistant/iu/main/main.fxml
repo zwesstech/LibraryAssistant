@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.main.MainController">
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="677.0" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.main.MainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -52,12 +52,58 @@
               </menus>
             </MenuBar>
          </top>
+         <right>
+            <VBox prefHeight="450.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="150.0" prefWidth="150.0" text="Add Member">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/add_mem.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="150.0" prefWidth="100.0" text="Add Book">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/add_book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="79.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="150.0" prefWidth="100.0" text="View Members">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/list_mem.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="148.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="150.0" prefWidth="100.0" text="View Books">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/list_book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="217.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="150.0" prefWidth="100.0" text="Settings">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </VBox>
+         </right>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Book Issue">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <JFXTabPane BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab text="Book Issue">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <VBox prefHeight="411.0" prefWidth="525.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
@@ -125,18 +171,19 @@
                                                       <Image url="@../icons/issue.png" />
                                                    </image>
                                                 </ImageView>
-                                             </graphic></JFXButton>
+                                             </graphic>
+                                          </JFXButton>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </children>
                         </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Renew / Submission">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     </content>
+                  </Tab>
+                  <Tab text="Renew / Submission">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <BorderPane layoutX="121.0" layoutY="44.0" prefHeight="411.0" prefWidth="525.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <center>
@@ -182,57 +229,11 @@
                               </BorderPane>
                            </children>
                         </AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
          </center>
-         <right>
-            <VBox prefHeight="450.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="150.0" prefWidth="150.0" text="Add Member">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/add_mem.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="150.0" prefWidth="100.0" text="Add Book">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/add_book.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="79.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="150.0" prefWidth="100.0" text="View Members">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/list_mem.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="148.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="150.0" prefWidth="100.0" text="View Books">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/list_book.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="217.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="150.0" prefWidth="100.0" text="Settings">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/settings.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-               </children>
-            </VBox>
-         </right>
       </BorderPane>
    </children>
 </StackPane>

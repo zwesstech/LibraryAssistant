@@ -41,3 +41,26 @@
     -jfx-unfocus-color: -fx-red;
      -jfx-focus-color: -fx-red;
  }
+
+ /*Main screen styling starts here.*/
+
+ /*TabPane styling*/
+ .tab{
+     -fx-background-color: -fx-primary;
+     -fx-pref-width: 250;
+     -fx-pref-height: 60;
+ }
+
+.tab-header-background{
+    -fx-background-color: -fx-primary;
+}
+
+/*Menu bar styling*/
+ .menu-bar{
+     -fx-base: -fx-primary;
+     -fx-background-color: -fx-primary;
+ }
+
+ .context-menu{
+     -fx-background-color: derive(-fx-primary, 20%);
+ }

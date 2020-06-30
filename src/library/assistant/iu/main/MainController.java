@@ -402,5 +402,9 @@ public class MainController implements Initializable {
         stage.setFullScreen(stage.isFullScreen());
     }
 
+    private void initDrawer(){
+
+    }
+
 }
 

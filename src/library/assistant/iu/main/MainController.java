@@ -1,10 +1,16 @@
 package library.assistant.iu.main;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -70,6 +77,12 @@ public class MainController implements Initializable {
     @FXML
     private ListView<String> issueDataList;
 
+    @FXML
+    private JFXHamburger hamburger;
+
+    @FXML
+    private JFXDrawer drawer;
+
     Boolean isReadyForSubmission = false;
 
     DatabaseHandler databaseHandler;
@@ -80,33 +93,9 @@ public class MainController implements Initializable {
         JFXDepthManager.setDepth(member_info, 1);
 
         databaseHandler = DatabaseHandler.getInstance();
+        initDrawer();
     }
 
-    @FXML
-    private void loadAddBook(ActionEvent event) {
-        loadWindow("/library/assistant/iu/addbook/add_book.fxml", "Add New Book");
-
-    }
-
-    @FXML
-    private void loadAddMember(ActionEvent event) {
-        loadWindow("/library/assistant/iu/addmember/member_add.fxml", "Add New Member");
-    }
-
-    @FXML
-    private void loadBookTable(ActionEvent event) {
-        loadWindow("/library/assistant/iu/listbook/book_list.fxml", "Book List");
-    }
-
-    @FXML
-    private void loadMemberTable(ActionEvent event) {
-        loadWindow("/library/assistant/iu/listmember/member_list.fxml", "Member List");
-    }
-
-    @FXML
-    void loadSettings(ActionEvent event) {
-        loadWindow("/library/assistant/settings/settings.fxml", "Settings");
-    }
 
     void loadWindow(String loc, String title) {
         try {
@@ -404,6 +393,30 @@ public class MainController implements Initializable {
 
     private void initDrawer(){
 
+        VBox toolbar = null;
+        try {
+            toolbar = FXMLLoader.load(getClass().getResource("/library/assistant/iu/main/toolbar/toolbar.fxml"));
+            drawer.setSidePane(toolbar);
+
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+        task.setRate(-1);
+        hamburger.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                task.setRate(task.getRate() * -1);
+                task.play();
+                if (drawer.isClosing()){
+                    drawer.open();
+                    drawer.setMinWidth(200);
+                }else {
+                    drawer.close();
+                    drawer.setMinWidth(0);
+                }
+            }
+        });
     }
 
 }

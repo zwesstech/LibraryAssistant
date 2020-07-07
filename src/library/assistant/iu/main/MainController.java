@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -392,29 +393,26 @@ public class MainController implements Initializable {
     }
 
     private void initDrawer(){
-
-        VBox toolbar = null;
         try {
-            toolbar = FXMLLoader.load(getClass().getResource("/library/assistant/iu/main/toolbar/toolbar.fxml"));
+           VBox toolbar = FXMLLoader.load(getClass().getResource("/library/assistant/iu/main/toolbar/toolbar.fxml"));
             drawer.setSidePane(toolbar);
+            drawer.setDefaultDrawerSize(150);
 
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
         task.setRate(-1);
-        hamburger.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                task.setRate(task.getRate() * -1);
-                task.play();
-                if (drawer.isClosing()){
-                    drawer.open();
-                    drawer.setMinWidth(200);
-                }else {
-                    drawer.close();
-                    drawer.setMinWidth(0);
-                }
+
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
+            task.setRate(task.getRate() * -1);
+            task.play();
+            if (drawer.isClosed()){
+                drawer.open();
+                drawer.setMinWidth(200);
+            }else {
+                drawer.close();
+                drawer.setMinWidth(0);
             }
         });
     }

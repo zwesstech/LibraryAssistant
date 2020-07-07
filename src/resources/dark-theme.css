@@ -79,3 +79,17 @@
  .jfx-drawer{
      -fx-background-color: -fx-primary;
  }
+
+ /*Toolbar button*/
+ .toolbar-button{
+     -fx-background-color: derive(-fx-primary, 20%);
+ }
+
+ .toolbar-button:hover {
+     -fx-background-color: -fx-secondary;
+     -fx-text-fill: -fx-primary;
+ }
+
+ .toolbar-button:hover .glyph-icon {
+     -fx-fill: -fx-primary;
+ }

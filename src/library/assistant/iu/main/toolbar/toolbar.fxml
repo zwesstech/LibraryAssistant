@@ -8,27 +8,32 @@
    <children>
       <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="400.0" prefWidth="150.0" styleClass="toolbar-button" text="Add Member">
          <graphic>
-            <FontAwesomeIconView glyphName="USER" size="25" text="" />
+            <FontAwesomeIconView glyphName="USER" size="25" />
          </graphic>
       </JFXButton>
       <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Add Book">
          <graphic>
-            <FontAwesomeIconView glyphName="BOOK" size="25" text="" />
+            <FontAwesomeIconView glyphName="BOOK" size="25" />
          </graphic>
       </JFXButton>
       <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="79.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Member List">
          <graphic>
-            <FontAwesomeIconView size="25" />
+            <FontAwesomeIconView glyphName="TABLE" size="25" />
          </graphic>
       </JFXButton>
       <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="148.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Book List">
          <graphic>
-            <FontAwesomeIconView size="25" wrappingWidth="24.0" />
+            <FontAwesomeIconView glyphName="TABLE" size="25" />
          </graphic>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="217.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Settings">
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="217.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Issued Book List">
          <graphic>
-            <FontAwesomeIconView size="25" wrappingWidth="24.0" />
+            <FontAwesomeIconView glyphName="CHECK" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="370.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="400.0" prefWidth="100.0" styleClass="toolbar-button" text="Settings">
+         <graphic>
+            <FontAwesomeIconView glyphName="COG" size="25" />
          </graphic>
       </JFXButton>
    </children>

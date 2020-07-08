@@ -97,22 +97,6 @@ public class MainController implements Initializable {
         initDrawer();
     }
 
-
-    void loadWindow(String loc, String title) {
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource(loc));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(title);
-            stage.setScene(new Scene(parent));
-            stage.show();
-
-            LibraryAssistantUtil.setStageIcon(stage);
-
-        } catch (IOException e) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
-
     @FXML
     private void loadBookInfo(ActionEvent event) {
         clearBookCache();
@@ -367,24 +351,25 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddBook(ActionEvent event) {
-        loadWindow("/library/assistant/iu/addbook/add_book.fxml", "Add New Book");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/addbook/add_book.fxml"), "Add New Book", null);
     }
 
     @FXML
     private void handleMenuAddMember(ActionEvent event) {
-        loadWindow("/library/assistant/iu/addmember/member_add.fxml", "Add New Member");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/addmember/member_add.fxml"), "Add New Member", null);
     }
 
 
     @FXML
     private void handleMenuViewBook(ActionEvent event) {
-        loadWindow("/library/assistant/iu/listbook/book_list.fxml", "Book List");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/listbook/book_list.fxml"), "Book List", null);
     }
 
     @FXML
     private void handleMenuViewMember(ActionEvent event) {
-        loadWindow("/library/assistant/iu/listmember/member_list.fxml", "Member List");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/listmember/member_list.fxml"), "Member List", null);
     }
+
 
     @FXML
     void handleMenuFullScreen(ActionEvent event) {

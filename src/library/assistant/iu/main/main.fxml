@@ -53,7 +53,7 @@
                   </MenuBar>
                </top>
                <right>
-                  <JFXDrawer fx:id="drawer" defaultDrawerSize="50.0" direction="RIGHT" styleClass="jfx-drawer" BorderPane.alignment="CENTER" />
+                  <JFXDrawer fx:id="drawer" direction="RIGHT" styleClass="jfx-drawer" BorderPane.alignment="CENTER" />
                </right>
                <center>
                   <AnchorPane prefHeight="487.0" prefWidth="601.0" BorderPane.alignment="CENTER">

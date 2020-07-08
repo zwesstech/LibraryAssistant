@@ -56,7 +56,7 @@
                   <JFXDrawer fx:id="drawer" direction="RIGHT" styleClass="jfx-drawer" BorderPane.alignment="CENTER" />
                </right>
                <center>
-                  <AnchorPane prefHeight="487.0" prefWidth="601.0" BorderPane.alignment="CENTER">
+                  <AnchorPane BorderPane.alignment="CENTER">
                      <children>
                         <JFXTabPane prefHeight="200.0" prefWidth="223.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
@@ -162,11 +162,53 @@
                                                 </HBox>
                                              </bottom>
                                              <top>
-                                                <JFXTextField fx:id="bookID" alignment="TOP_LEFT" labelFloat="true" onAction="#loadBookInfoTwo" prefWidth="80.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
+                                                <JFXTextField fx:id="bookID" alignment="TOP_LEFT" labelFloat="true" onAction="#loadBookInfoTwo" prefHeight="38.0" prefWidth="407.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
-                                                      <Insets left="250.0" right="180.0" top="20.0" />
+                                                      <Insets left="250.0" right="450.0" top="20.0" />
                                                    </BorderPane.margin></JFXTextField>
                                              </top>
+                                             <center>
+                                                <HBox prefHeight="10000.0" prefWidth="10000.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <VBox alignment="TOP_CENTER" prefHeight="309.0" prefWidth="274.0" spacing="20.0" styleClass="submission-container">
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" right="20.0" />
+                                                         </HBox.margin>
+                                                         <children>
+                                                            <FontAwesomeIconView glyphName="USER" size="60" />
+                                                            <Text fx:id="memberNameHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="memberEmailHolder" layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Email Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="memberContactHolder" layoutX="10.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Contact Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="320.0" prefWidth="240.0" spacing="20.0" styleClass="submission-container">
+                                                         <HBox.margin>
+                                                            <Insets right="20.0" />
+                                                         </HBox.margin>
+                                                         <children>
+                                                            <FontAwesomeIconView glyphName="BOOK" size="60" />
+                                                            <Text fx:id="bookNameHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Name Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="bookAuthorHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Author Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="bookPublisherHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Publisher Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" layoutX="110.0" layoutY="10.0" prefHeight="320.0" prefWidth="240.0" spacing="20.0" styleClass="submission-container">
+                                                         <children>
+                                                            <FontAwesomeIconView glyphName="CALENDAR_CHECK_ALT" size="60" />
+                                                            <Text fx:id="issueDateHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="numberDaysHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="No of Days Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                            <Text fx:id="fineInfoHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Fine Holder" textAlignment="CENTER" wrappingWidth="300.0" />
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets right="20.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <BorderPane.margin>
+                                                      <Insets top="20.0" />
+                                                   </BorderPane.margin>
+                                                </HBox>
+                                             </center>
                                           </BorderPane>
                                        </children>
                                     </AnchorPane>

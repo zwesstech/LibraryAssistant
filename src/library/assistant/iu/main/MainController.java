@@ -1,26 +1,25 @@
 package library.assistant.iu.main;
 
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -46,6 +45,10 @@ public class MainController implements Initializable {
 
     @FXML
     private StackPane rootPane;
+
+
+    @FXML
+    private AnchorPane rootAnchorPane;
 
     @FXML
     private HBox book_info;
@@ -270,12 +273,29 @@ public class MainController implements Initializable {
                 fineInfoHolder.setText("Not Supported Yet");
 
                 isReadyForSubmission = true;
+            }else {
+                BoxBlur blur = new BoxBlur(3, 3, 3);
+
+                JFXDialogLayout dialogLayout = new JFXDialogLayout();
+                JFXButton button = new JFXButton("Okay.I'll Check");
+                button.getStyleClass().add("dialog-button");
+                JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
+                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent) -> {
+                    dialog.close();
+                });
+
+                dialogLayout.setHeading(new Label("No such book exists in issue Records"));
+                dialogLayout.setActions(button);
+                dialog.show();
+                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
+                    rootAnchorPane.setEffect(blur);
+                });
+                rootAnchorPane.setEffect(blur);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-     //   issueDataList.getItems().setAll(issueData);
     }
 
     @FXML

@@ -148,12 +148,12 @@
                                              <bottom>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <JFXButton alignment="CENTER" onAction="#loadRenewOp" prefWidth="150.0" text="Renew">
+                                                      <JFXButton fx:id="renewButton" alignment="CENTER" disable="true" onAction="#loadRenewOp" prefWidth="150.0" text="Renew">
                                                          <HBox.margin>
                                                             <Insets right="20.0" />
                                                          </HBox.margin>
                                                       </JFXButton>
-                                                      <JFXButton alignment="CENTER" layoutX="240.0" layoutY="45.0" onAction="#loadSubmissionOp" prefWidth="150.0" text="Submission">
+                                                      <JFXButton fx:id="submissionButton" alignment="CENTER" disable="true" layoutX="240.0" layoutY="45.0" onAction="#loadSubmissionOp" prefWidth="150.0" text="Submission">
                                                          <HBox.margin>
                                                             <Insets right="20.0" />
                                                          </HBox.margin>
@@ -168,7 +168,7 @@
                                                    </BorderPane.margin></JFXTextField>
                                              </top>
                                              <center>
-                                                <HBox prefHeight="10000.0" prefWidth="10000.0" BorderPane.alignment="CENTER">
+                                                <HBox fx:id="submissionDataContainer" opacity="0.0" prefHeight="10000.0" prefWidth="10000.0" BorderPane.alignment="CENTER">
                                                    <children>
                                                       <VBox alignment="TOP_CENTER" prefHeight="309.0" prefWidth="274.0" spacing="20.0" styleClass="submission-container">
                                                          <HBox.margin>

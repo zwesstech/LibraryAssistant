@@ -90,6 +90,15 @@ public class MainController implements Initializable {
     private JFXDrawer drawer;
 
     @FXML
+    private JFXButton renewButton;
+
+    @FXML
+    private JFXButton submissionButton;
+
+    @FXML
+    private HBox submissionDataContainer;
+
+    @FXML
     private Text memberNameHolder;
 
     @FXML
@@ -239,6 +248,7 @@ public class MainController implements Initializable {
 
     @FXML
     void loadBookInfoTwo(ActionEvent event) {
+        clearEntries();
         ObservableList<String> issueData = FXCollections.observableArrayList();
         isReadyForSubmission = false;
 
@@ -273,6 +283,8 @@ public class MainController implements Initializable {
                 fineInfoHolder.setText("Not Supported Yet");
 
                 isReadyForSubmission = true;
+                disableEnableControls(true);
+                submissionDataContainer.setOpacity(1);
             }else {
                 BoxBlur blur = new BoxBlur(3, 3, 3);
 
@@ -326,11 +338,12 @@ public class MainController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Book Has Been Submitted");
                 alert.showAndWait();
+                loadBookInfoTwo(null);
             } else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failed");
                 alert.setHeaderText(null);
-                alert.setContentText("Submission Has Submitted");
+                alert.setContentText("Submission Has Failed");
                 alert.showAndWait();
             }
         }else {
@@ -369,6 +382,7 @@ public class MainController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Book Has Been Renewed");
                 alert.showAndWait();
+                loadBookInfoTwo(null);
             } else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failed");
@@ -447,5 +461,32 @@ public class MainController implements Initializable {
         });
     }
 
+    private void clearEntries() {
+        memberNameHolder.setText("");
+        memberEmailHolder.setText("");
+        memberContactHolder.setText("");
+
+        bookNameHolder.setText("");
+        bookAuthorHolder.setText("");
+        bookPublisherHolder.setText("");
+
+        issueDateHolder.setText("");
+        numberDaysHolder.setText("");
+        fineInfoHolder.setText("");
+
+        disableEnableControls(false);
+        submissionDataContainer.setOpacity(0);
+
+    }
+
+    private void disableEnableControls(boolean enableFlag) {
+        if (enableFlag) {
+            renewButton.setDisable(false);
+            submissionButton.setDisable(false);
+        }else {
+            renewButton.setDisable(true);
+            submissionButton.setDisable(true);
+        }
+    }
 }
 

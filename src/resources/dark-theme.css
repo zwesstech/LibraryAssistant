@@ -120,3 +120,19 @@
  .jfx-layout-actions{
      -fx-hgap: 8;
  }
+
+ /*Chart Styling*/
+ .data0.chart-pie{
+     -fx-pie-color: -fx-secondary;
+     -fx-border-color: derive(-fx-secondary, -30%);
+
+ }
+
+ .data1.chart-pie{
+     -fx-pie-color: -fx-blue;
+     -fx-border-color: derive(-fx-blue, -30%);
+ }
+
+ .chart-pie-label{
+     -fx-fill: -fx-secondary;
+ }

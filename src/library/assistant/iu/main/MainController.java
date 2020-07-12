@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
@@ -51,6 +52,9 @@ public class MainController implements Initializable {
 
     @FXML
     private AnchorPane rootAnchorPane;
+
+    @FXML
+    private StackPane bookInfoContainer;
 
     @FXML
     private HBox book_info;
@@ -131,6 +135,8 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
 
+    PieChart bookChart;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         JFXDepthManager.setDepth(book_info, 1);
@@ -138,6 +144,7 @@ public class MainController implements Initializable {
 
         databaseHandler = DatabaseHandler.getInstance();
         initDrawer();
+        initGraphs();
     }
 
     @FXML
@@ -466,6 +473,13 @@ public class MainController implements Initializable {
         bookStatus.setText("");
         memberMobile.setText("");
         memberName.setText("");
+    }
+
+    private void initGraphs() {
+        bookChart = new PieChart(databaseHandler.getBookGraphStatistics());
+        bookInfoContainer.getChildren().add(bookChart);
+
+
     }
 }
 

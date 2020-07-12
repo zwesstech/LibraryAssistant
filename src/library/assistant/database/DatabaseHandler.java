@@ -1,5 +1,8 @@
 package library.assistant.database;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import library.assistant.iu.listbook.BookListController;
 import library.assistant.iu.listmember.MemberListController;
 
@@ -254,6 +257,28 @@ public class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public ObservableList<PieChart.Data> getBookGraphStatistics(){
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        try {
+        String qu1 = "SELECT COUNT(*) FROM BOOK";
+        String qu2 = "SELECT COUNT(*) FROM ISSUE";
+        ResultSet rs = execQuery(qu1);
+        if (rs.next()){
+            int count = rs.getInt(1);
+            data.add(new PieChart.Data("Total Books {" + count + "}", count));
+
+        }
+
+            if (rs.next()){
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Issued Books {" + count + "}", count));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }
 

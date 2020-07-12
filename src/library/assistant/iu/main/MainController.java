@@ -241,7 +241,6 @@ public class MainController implements Initializable {
 
     }
 
-
     @FXML
     void loadBookInfoTwo(ActionEvent event) {
         clearEntries();

@@ -121,11 +121,11 @@ public class AlertMaker {
 
         });
 
-        dialogLayout.setHeading(new Label("No such book exists in issue Records"));
+        dialogLayout.setHeading(new Label(header));
         dialogLayout.setActions(controls);
         dialog.show();
         dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-            nodeToBeBlurred.setEffect(blur);
+            nodeToBeBlurred.setEffect(null);
         });
         nodeToBeBlurred.setEffect(blur);
     }

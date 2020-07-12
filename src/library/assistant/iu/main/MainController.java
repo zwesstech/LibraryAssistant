@@ -57,6 +57,12 @@ public class MainController implements Initializable {
     private StackPane bookInfoContainer;
 
     @FXML
+    private StackPane memberInfoContainer;
+
+    @FXML
+    private Tab bookIssueTab;
+
+    @FXML
     private HBox book_info;
 
     @FXML
@@ -137,6 +143,8 @@ public class MainController implements Initializable {
 
     PieChart bookChart;
 
+    PieChart memberChart;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         JFXDepthManager.setDepth(book_info, 1);
@@ -150,6 +158,8 @@ public class MainController implements Initializable {
     @FXML
     private void loadBookInfo(ActionEvent event) {
         clearBookCache();
+        enableDisableGraph(false);
+
         String id = bookIDInput.getText();
         String qu = "SELECT * FROM BOOK WHERE id = '" + id + "'";
         ResultSet rs = databaseHandler.execQuery(qu);
@@ -190,6 +200,8 @@ public class MainController implements Initializable {
     @FXML
     private void loadMemberInfo(ActionEvent event) {
         clearMemberCache();
+        enableDisableGraph(false);
+
         String id = memberIDInput.getText();
         String qu = "SELECT * FROM MEMBER WHERE id = '" + id + "'";
         ResultSet rs = databaseHandler.execQuery(qu);
@@ -231,7 +243,7 @@ public class MainController implements Initializable {
             if (databaseHandler.execAction(str) && databaseHandler.execAction(str2)) {
                 JFXButton button = new JFXButton("Done!");
                 AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Book Issue Complete", null);
-
+                refreshGraphs();
             } else {
                 JFXButton button = new JFXButton("Okay,I'll Check");
                 AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Operation Failed", null);
@@ -473,13 +485,39 @@ public class MainController implements Initializable {
         bookStatus.setText("");
         memberMobile.setText("");
         memberName.setText("");
+        enableDisableGraph(true);
     }
 
     private void initGraphs() {
         bookChart = new PieChart(databaseHandler.getBookGraphStatistics());
+        memberChart = new PieChart(databaseHandler.getMemberGraphStatistics());
+        memberInfoContainer.getChildren().add(memberChart);
         bookInfoContainer.getChildren().add(bookChart);
 
+        bookIssueTab.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                clearIssueEntries();
+                if (bookIssueTab.isSelected()){
+                    refreshGraphs();
+                }
+            }
+        });
+    }
 
+    private void enableDisableGraph(Boolean status){
+        if (status){
+            bookChart.setOpacity(1);
+            memberChart.setOpacity(1);
+        }else {
+            bookChart.setOpacity(0);
+            memberChart.setOpacity(0);
+        }
+    }
+
+    private void refreshGraphs(){
+        bookChart.setData(databaseHandler.getBookGraphStatistics());
+        memberChart.setData(databaseHandler.getMemberGraphStatistics());
     }
 }
 

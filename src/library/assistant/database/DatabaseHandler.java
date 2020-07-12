@@ -271,9 +271,33 @@ public class DatabaseHandler {
 
         }
 
+        rs = execQuery(qu2);
             if (rs.next()){
                 int count = rs.getInt(1);
                 data.add(new PieChart.Data("Issued Books {" + count + "}", count));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ObservableList<PieChart.Data> getMemberGraphStatistics(){
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        try {
+            String qu1 = "SELECT COUNT(*) FROM MEMBER";
+            String qu2 = "SELECT COUNT(DISTINCT memberID) FROM ISSUE";
+            ResultSet rs = execQuery(qu1);
+            if (rs.next()){
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Total Members {" + count + "}", count));
+
+            }
+
+            rs = execQuery(qu2);
+            if (rs.next()){
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Members with books {" + count + "}", count));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
@@ -15,6 +16,7 @@ import library.assistant.iu.listbook.BookListController;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,10 @@ import java.util.logging.Logger;
 public class BookAddController implements Initializable {
 
     @FXML
-    private AnchorPane rootPane;
+    private StackPane rootPane;
+
+    @FXML
+    private AnchorPane mainContainer;
 
     @FXML
     private JFXTextField title;
@@ -44,7 +49,7 @@ public class BookAddController implements Initializable {
 
     private Boolean isInEditMode = Boolean.FALSE;
 
-    DatabaseHandler databaseHandler;
+    private DatabaseHandler databaseHandler;
 
 
     @Override
@@ -62,10 +67,7 @@ public class BookAddController implements Initializable {
         String bookPublisher = publisher.getText();
 
         if (bookID.isEmpty()||bookAuthor.isEmpty()||bookName.isEmpty()||bookPublisher.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Please Enter in all fields");
-            alert.showAndWait();
+            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Insufficient Data", "Please enter data in all fields.");
             return;
         }
             if (isInEditMode){

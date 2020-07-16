@@ -33,10 +33,12 @@
 
  .text-field{
      -fx-text-fill: -fx-primarytext;
-     -fx-font-size: 13pt;
-     -fx-focus-color: -fx-secondary;
+     -fx-font-size: 12pt;
+     -jfx-focus-color: -fx-secondary;
+     -fx-text-fill: derive(-fx-secondary, 20%)
  }
 
+ /*Login Screen*/
  .wrong-credentials{
     -jfx-unfocus-color: -fx-red;
      -jfx-focus-color: -fx-red;

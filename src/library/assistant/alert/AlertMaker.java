@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -13,7 +15,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.assistant.iu.addbook.LibraryAssistant;
+import library.assistant.util.LibraryAssistantUtil;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
@@ -24,7 +30,7 @@ public class AlertMaker {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(content);
+        styleAlert(alert);
         alert.showAndWait();
     }
 
@@ -33,13 +39,14 @@ public class AlertMaker {
         alert.setTitle("Error");
         alert.setHeaderText(title);
         alert.setContentText(content);
+        styleAlert(alert);
         alert.showAndWait();
     }
 
     public static void showErrorMessage(Exception ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error occured");
-        alert.setHeaderText("Error occured");
+        alert.setTitle("Error occurred");
+        alert.setHeaderText("Error occurred");
         alert.setContentText(ex.getLocalizedMessage());
 
         StringWriter sw = new StringWriter();
@@ -71,7 +78,7 @@ public class AlertMaker {
 
     public static void showErrorMessage(Exception ex, String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error occured");
+        alert.setTitle("Error occurred");
         alert.setHeaderText(title);
         alert.setContentText(content);
 
@@ -100,16 +107,20 @@ public class AlertMaker {
         alert.showAndWait();
     }
 
-
     private static void styleAlert(Alert alert) {
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        DialogPane dialogPane = alert.getDialogPane();
+        LibraryAssistantUtil.setStageIcon(stage);
 
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(AlertMaker.class.getResource("/resources/dark-theme.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-alert");
     }
 
     public static void showMaterialDialog(StackPane root, Node nodeToBeBlurred, List<JFXButton> controls, String header, String body){
         BoxBlur blur = new BoxBlur(3, 3, 3);
-
+        if (controls.isEmpty()){
+            controls.add(new JFXButton("Okay"));
+        }
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         JFXDialog dialog = new JFXDialog(root, dialogLayout, JFXDialog.DialogTransition.TOP);
 
@@ -122,11 +133,22 @@ public class AlertMaker {
         });
 
         dialogLayout.setHeading(new Label(header));
+        dialogLayout.setBody(new Label(body));
         dialogLayout.setActions(controls);
         dialog.show();
         dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
             nodeToBeBlurred.setEffect(null);
         });
         nodeToBeBlurred.setEffect(blur);
+    }
+
+    public static void showTrayMessage(String title, String message){
+        try {
+            SystemTray tray = SystemTray.getSystemTray();
+            BufferedImage image = ImageIO.read(AlertMaker.class.getResource(LibraryAssistantUtil.IMAGE_LOC));
+            TrayIcon trayIcon = new TrayIcon(image, "Library Assistant");
+        }catch (Exception exp){
+            exp.printStackTrace();
+        }
     }
 }

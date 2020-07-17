@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
@@ -36,36 +37,43 @@ import java.util.logging.Logger;
 
 public class BookListController implements Initializable {
 
-        DatabaseHandler handler;
+    @FXML
+    private StackPane rootPane;
 
-        ObservableList<Book> list = FXCollections.observableArrayList();
+    @FXML
+    private AnchorPane contentPane;
 
-        @FXML
-        private AnchorPane rootPane;
+    @FXML
+    private TableView<Book> tableView;
 
-        @FXML
-        private TableView<Book> tableView;
+    @FXML
+    private TableColumn<Book, String> titleCol;
 
-        @FXML
-        private TableColumn<Book, String> titleCol;
+    @FXML
+    private TableColumn<Book, String> idCol;
 
-        @FXML
-        private TableColumn<Book, String> idCol;
+    @FXML
+    private TableColumn<Book, String> authorCol;
 
-        @FXML
-        private TableColumn<Book, String> authorCol;
+    @FXML
+    private TableColumn<Book, String> publisherCol;
 
-        @FXML
-        private TableColumn<Book, String> publisherCol;
+    @FXML
+    private TableColumn<Book, Boolean> availabilityCol;
 
-        @FXML
-        private TableColumn<Book, Boolean> availabilityCol;
+    DatabaseHandler handler;
+
+    ObservableList<Book> list = FXCollections.observableArrayList();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
         loadData();
+    }
+
+    private Stage getStage(){
+        return (Stage) tableView.getScene().getWindow();
     }
 
     private void initCol() {
@@ -78,6 +86,7 @@ public class BookListController implements Initializable {
 
     private void loadData() {
         list.clear();
+
         DatabaseHandler handler = DatabaseHandler.getInstance();
         String qu = "SELECT * FROM BOOK";
         ResultSet rs = handler.execQuery(qu);
@@ -103,12 +112,11 @@ public class BookListController implements Initializable {
 
         Book selectedForDeletion =  tableView.getSelectionModel().getSelectedItem();
         if (selectedForDeletion == null){
-
-            AlertMaker.showErrorMessage("No Book selected", "Please select a book for deletion");
+            AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion");
             return;
         }
         if (DatabaseHandler.getInstance().isBookAlreadyIssued(selectedForDeletion)){
-            AlertMaker.showErrorMessage("Can't be deleted", "This book is already issued and can't be deleted.");
+            AlertMaker.showErrorMessage("Cant be deleted", "This book is already issued and cant be deleted.");
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -127,7 +135,6 @@ public class BookListController implements Initializable {
         }else {
             AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
         }
-
     }
 
     @FXML
@@ -136,7 +143,7 @@ public class BookListController implements Initializable {
         Book selectedForEdit =  tableView.getSelectionModel().getSelectedItem();
         if (selectedForEdit == null){
 
-            AlertMaker.showErrorMessage("No Book selected", "Please select a book to Edit");
+            AlertMaker.showErrorMessage("No book selected", "Please select a book to Edit");
             return;
         }
         try {

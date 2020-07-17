@@ -12,8 +12,6 @@ import javafx.stage.Stage;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.listmember.MemberListController;
-
-import java.lang.reflect.Member;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -73,6 +71,7 @@ public class MemberAddController implements Initializable {
             return;
         }
 
+        //new part
       /*  if (DataHelper.isMemberExists(mID)) {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate member id", "Member with same id exists.\nPlease use new ID.");
             return;
@@ -88,6 +87,7 @@ public class MemberAddController implements Initializable {
 
     }*/
 
+        //remove
         String st = "INSERT INTO MEMBER VALUES (" +
                 "'" + mID +"',"+
                 "'" + mName +"',"+
@@ -103,7 +103,7 @@ public class MemberAddController implements Initializable {
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setContentText("Error Occured");
+            alert.setContentText("Error Occurred");
             alert.showAndWait();
 
         }

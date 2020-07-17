@@ -75,7 +75,7 @@ public class BookAddController implements Initializable {
                 return;
             }
 
-
+        //remove this part
         String qu = "INSERT INTO BOOK VALUES ("+
                 "'" + bookID +"',"+
                 "'" + bookName +"',"+
@@ -94,6 +94,19 @@ public class BookAddController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Failed");
             alert.showAndWait();
+
+          /*  if (DataHelper.isBookExists(bookID)){
+                AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate book id", "Book with same Book ID exists.\nPlease use new IDs");
+                return;
+            }
+            Book book = new Book(bookID, bookName, bookAuthor, bookPublisher, Boolean.TRUE);
+            boolean result = DataHelper.insertNewBook(book);
+            if (result){
+                AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "New book added", bookName + " has been added");
+                clearEntries();
+            }else {
+                AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Failed to add new book", "Check all the entries and try again");
+            }*/
         }
     }
 
@@ -125,12 +138,19 @@ public class BookAddController implements Initializable {
         isInEditMode = Boolean.TRUE;
     }
 
+    private void clearEntries(){
+        title.clear();
+        id.clear();
+        author.clear();
+        publisher.clear();
+    }
+
     private void handleEditOperation() {
         BookListController.Book book = new BookListController.Book(title.getText(), id.getText(), author.getText(), publisher.getText(), true);
         if (databaseHandler.updateBook(book)){
-            AlertMaker.showSimpleAlert("Success", "Book Updated");
+            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Success", "Update complete");
         }else{
-            AlertMaker.showErrorMessage("Failed", "Can't update book");
+            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Failed", "Could not update data");
         }
     }
 }

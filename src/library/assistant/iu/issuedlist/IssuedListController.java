@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
+import library.assistant.iu.callback.BookReturnCallback;
 import library.assistant.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 
@@ -59,6 +60,7 @@ public class IssuedListController implements Initializable {
     private TableColumn<IssueInfo, Float> fineCol;
 
     private ObservableList<IssueInfo> list = FXCollections.observableArrayList();
+    private BookReturnCallback callback;
 
     @FXML
     private void closeStage(ActionEvent event) {
@@ -78,7 +80,7 @@ public class IssuedListController implements Initializable {
     void handleReturn(ActionEvent event) {
         IssueInfo issueInfo = tableView.getSelectionModel().getSelectedItem();
         if (issueInfo != null){
-            //callback.loadBookReturn();
+            callback.loadBookReturn(issueInfo.getBookID());
         }
     }
 
@@ -101,7 +103,9 @@ public class IssuedListController implements Initializable {
         tableView.setItems(list);
     }
 
-    public void setBookReturnCallback(){}
+    public void setBookReturnCallback(BookReturnCallback callback){
+        this.callback = callback;
+    }
 
     private void loadData() {
         DatabaseHandler handler = DatabaseHandler.getInstance();

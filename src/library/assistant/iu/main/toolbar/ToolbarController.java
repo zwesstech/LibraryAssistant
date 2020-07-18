@@ -38,6 +38,6 @@ public class ToolbarController implements Initializable {
 
     @FXML
     void loadIssuedBookList(ActionEvent event) {
-
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/issuedlist/issued_list.fxml"), "Issued List", null);
     }
 }

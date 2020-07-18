@@ -15,6 +15,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
@@ -36,7 +38,11 @@ import java.util.logging.Logger;
 
 public class MemberListController implements Initializable {
 
-    ObservableList<Member> list = FXCollections.observableArrayList();
+    @FXML
+    private StackPane rootPane;
+
+    @FXML
+    private AnchorPane contentPane;
 
     @FXML
     private TableView<Member> tableView;
@@ -53,6 +59,8 @@ public class MemberListController implements Initializable {
     @FXML
     private TableColumn<Member, String> emailCol;
 
+    ObservableList<Member> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
@@ -64,6 +72,10 @@ public class MemberListController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         mobileCol.setCellValueFactory(new PropertyValueFactory<>("mobile"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+    }
+
+    private Stage getStage(){
+        return (Stage) tableView.getScene().getWindow();
     }
 
     private void loadData() {
@@ -85,7 +97,7 @@ public class MemberListController implements Initializable {
             Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        tableView.getItems().setAll(list);
+        tableView.setItems(list);
     }
 
     @FXML
@@ -93,21 +105,21 @@ public class MemberListController implements Initializable {
         Member selectedForDeletion =  tableView.getSelectionModel().getSelectedItem();
         if (selectedForDeletion == null){
 
-            AlertMaker.showErrorMessage("No Book selected", "Please select a book for deletion");
+            AlertMaker.showErrorMessage("No member selected", "Please select a member for deletion");
             return;
         }
         if (DatabaseHandler.getInstance().isMemberHasAnyBooks(selectedForDeletion)){
-            AlertMaker.showErrorMessage("Can't be deleted", "This member has some books.");
+            AlertMaker.showErrorMessage("Cant be deleted", "This member has some books.");
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Deleting member");
-        alert.setContentText("Are you sure you want to remove this member: " + selectedForDeletion.getName() + " ?");
+        alert.setTitle("Deleting book");
+        alert.setContentText("Are you sure you want to delete " + selectedForDeletion.getName() + " ?");
         Optional<ButtonType> answer = alert.showAndWait();
         if (answer.get() == ButtonType.OK){
             Boolean result = DatabaseHandler.getInstance().deleteMember(selectedForDeletion);
             if (result){
-                AlertMaker.showSimpleAlert("Member deleted", selectedForDeletion.getName() + " was deleted successfully.");
+                AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getName() + " was deleted successfully.");
                 list.remove(selectedForDeletion);
             }else {
                 AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getName() + " could not be deleted");
@@ -119,12 +131,13 @@ public class MemberListController implements Initializable {
 
     }
 
+
+
     @FXML
     void handleMemberEdit(ActionEvent event) {
         Member selectedForEdit =  tableView.getSelectionModel().getSelectedItem();
         if (selectedForEdit == null){
-
-            AlertMaker.showErrorMessage("No Member selected", "Please select a member to Edit");
+            AlertMaker.showErrorMessage("No member selected", "Please select a member to Edit");
             return;
         }
         try {
@@ -138,7 +151,6 @@ public class MemberListController implements Initializable {
             stage.setTitle("Edit Member");
             stage.setScene(new Scene(parent));
             stage.show();
-
             LibraryAssistantUtil.setStageIcon(stage);
 
             stage.setOnCloseRequest((e)->{
@@ -148,11 +160,17 @@ public class MemberListController implements Initializable {
         } catch (IOException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
+
     }
 
     @FXML
     void handleRefresh(ActionEvent event) {
         loadData();
+    }
+
+    @FXML
+    void closeStage(ActionEvent event) {
+        getStage().close();
     }
 
     public static class Member{

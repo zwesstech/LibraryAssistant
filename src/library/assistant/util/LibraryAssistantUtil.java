@@ -45,7 +45,7 @@ public class LibraryAssistantUtil {
 
     public static Float getFineAmount(int totalDays){
         Preferences pref = Preferences.getPreferences();
-        Integer fineDays = totalDays - pref.getnDaysWithoutFine();
+        Integer fineDays = totalDays - pref.getDaysWithoutFine();
         Float fine = 0f;
         if (fineDays > 0){
             fine = fineDays * pref.getFinePerDay();

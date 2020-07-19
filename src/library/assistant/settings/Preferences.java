@@ -24,11 +24,11 @@ public class Preferences {
         setPassword("admin");
     }
 
-    public int getnDaysWithoutFine() {
+    public int getDaysWithoutFine() {
         return nDaysWithoutFine;
     }
 
-    public void setnDaysWithoutFine(int nDaysWithoutFine) {
+    public void setDaysWithoutFine(int nDaysWithoutFine) {
         this.nDaysWithoutFine = nDaysWithoutFine;
     }
 

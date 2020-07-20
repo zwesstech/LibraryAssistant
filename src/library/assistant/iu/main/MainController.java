@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
+import library.assistant.database.DataHelper;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.util.LibraryAssistantUtil;
 
@@ -48,7 +49,6 @@ public class MainController implements Initializable {
 
     @FXML
     private StackPane rootPane;
-
 
     @FXML
     private AnchorPane rootAnchorPane;
@@ -137,13 +137,14 @@ public class MainController implements Initializable {
     @FXML
     private Text fineInfoHolder;
 
-    Boolean isReadyForSubmission = false;
+    private static final String BOOK_AVAILABLE = "Available";
+    private static final String NO_SUCH_BOOK_AVAILABLE = "No Such Book Available";
+    private static final String NO_SUCH_MEMBER_AVAILABLE = "No Such Member Available";
 
-    DatabaseHandler databaseHandler;
-
-    PieChart bookChart;
-
-    PieChart memberChart;
+    private Boolean isReadyForSubmission = false;
+    private DatabaseHandler databaseHandler;
+    private PieChart bookChart;
+    private PieChart memberChart;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -161,24 +162,31 @@ public class MainController implements Initializable {
         enableDisableGraph(false);
 
         String id = bookIDInput.getText();
-        String qu = "SELECT * FROM BOOK WHERE id = '" + id + "'";
-        ResultSet rs = databaseHandler.execQuery(qu);
+        ResultSet rs = DataHelper.getBookInfoWithIssueData(id);
         Boolean flag = false;
         try {
             while (rs.next()) {
                 String bName = rs.getString("title");
                 String bAuthor = rs.getString("author");
                 Boolean bStatus = rs.getBoolean("isAvail");
+                Timestamp issuedOn = rs.getTimestamp("issueTime");
 
                 bookName.setText(bName);
                 bookAuthor.setText(bAuthor);
-                String status = (bStatus) ? "Available" : "Not Available";
+                String status = (bStatus) ? BOOK_AVAILABLE : String.format("Issued on %s", LibraryAssistantUtil.getDateString(new Date(issuedOn.getTime())));
+                if (!bStatus){
+                    bookStatus.getStyleClass().add("not-available");
+                }else {
+                    bookStatus.getStyleClass().remove("not-available");
+                }
                 bookStatus.setText(status);
 
                 flag = true;
             }
             if (!flag) {
-                bookName.setText("No Such Book Available");
+                bookName.setText(NO_SUCH_BOOK_AVAILABLE);
+            }else {
+                memberIDInput.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -217,7 +225,12 @@ public class MainController implements Initializable {
                 flag = true;
             }
             if (!flag) {
-                memberName.setText("No Such Member Available");
+                memberName.setText(NO_SUCH_MEMBER_AVAILABLE);
+            }else {
+
+
+
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);

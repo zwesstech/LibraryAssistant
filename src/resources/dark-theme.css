@@ -85,6 +85,7 @@
 
 /*Menu bar styling*/
  .menu-bar{
+     -fx-font-size: 14;
      -fx-base: -fx-primary;
      -fx-background-color: -fx-primary;
  }
@@ -137,14 +138,15 @@
 
  /*Dialog Styling*/
  .dialog-button{
-     -fx-background-color: -fx-blue;
-     -fx-border-color: -fx-blue;
+     -fx-border-color: -fx-color-1;
      -fx-text-fill: white;
+     -fx-border-radius: 1px;
+     -fx-background-radius: 3px;
  }
 
  .dialog-button:hover{
-     -fx-background-color: -fx-primary;
-     -fx-border-color: -fx-primary;
+     -fx-background-color: -fx-color-1;
+     -fx-border-color: derive(-fx-color-1, -20%);
      -fx-text-fill: white;
  }
 
@@ -160,12 +162,17 @@
  }
 
  .data1.chart-pie{
-     -fx-pie-color: -fx-blue;
-     -fx-border-color: derive(-fx-blue, -30%);
+     -fx-pie-color: derive(-fx-primary, 30%);
+     -fx-border-color: derive(-fx-primary, -30%);
  }
 
  .chart-pie-label{
-     -fx-fill: -fx-secondary;
+     -fx-fill: derive(-fx-secondary, -5%)
+ }
+
+ /*Custom window background*/
+ .custom-pane{
+     -fx-background-color: derive(-fx-primary, 5%);
  }
 
  /*TableView Default*/
@@ -200,23 +207,18 @@
      -fx-text-fill: white;
  }
 
- .table-view .table-cell:focused, .table-cell:focused {
+ .table-row-cell:focused .table-cell:focused{
      -fx-text-fill: -fx-primary;
- }
-
- .table-view .filler{
-     -fx-background-color: -fx-primary;
-     -fx-fill: -fx-primary;
- }
-
- .table-context{
-     -fx-base: -fx-primary;
  }
 
  .table-row-cell{
      -fx-background-color: -fx-primary;
      -fx-border-color: transparent;
      -fx-table-cell-border-color: transparent;
+ }
+
+ .table-column{
+     -fx-alignment: CENTER;
  }
 
  .table-row-cell:even{
@@ -231,10 +233,6 @@
 
  .table-row-cell:selected .table-cell{
      -fx-text-fill: -fx-primary;
- }
-
- .table-column{
-     -fx-alignment: center;
  }
 
  .placeholder .label{
@@ -262,9 +260,13 @@
      -fx-background-radius: 5em;
  }
 
- /*Custom window background*/
- .custom-pane{
-     -fx-background-color: derive(-fx-primary, 5%);
+ .table-view .filler{
+     -fx-background-color: -fx-primary;
+     -fx-fill: -fx-primary;
+ }
+
+ .table-context{
+     -fx-base: -fx-primary;
  }
 
  /*Checkbox*/
@@ -272,4 +274,10 @@
      -fx-text-fill: -fx-secondary;
      -jfx-checked-color: -fx-primary;
      -fx-font-size: 10pt;
+ }
+
+ .common-label{
+     -fx-background-color: transparent;
+     -fx-text-fill: -fx-secondary;
+     -fx-font-size: 12pt;
  }

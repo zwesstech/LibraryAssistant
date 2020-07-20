@@ -60,4 +60,8 @@ public class LibraryAssistantUtil {
     public static String formatDateTimeString(Long time){
         return DATE_TIME_FORMAT.format(new Date(time));
     }
+
+    public static String getDateString(Date date){
+        return DATE_FORMAT.format(date);
+    }
 }

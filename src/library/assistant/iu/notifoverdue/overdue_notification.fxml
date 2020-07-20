@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane fx:id="rootPane" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.notifoverdue.OverdueNotificationController">
+   <children>
+      <AnchorPane prefHeight="460.0" prefWidth="840.0">
+         <children>
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
+              <columns>
+                <TableColumn fx:id="colNotify" prefWidth="75.0" text="Notify" />
+                <TableColumn fx:id="colMemID" prefWidth="75.0" text="Member ID" />
+                  <TableColumn fx:id="colMemberName" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="colEmail" prefWidth="75.0" text="Email ID" />
+                  <TableColumn fx:id="colBookName" prefWidth="75.0" text="Book Name" />
+                  <TableColumn fx:id="colDays" prefWidth="75.0" text="Days" />
+                  <TableColumn fx:id="colFineAmount" prefWidth="75.0" text="Fine Amount" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <Label alignment="CENTER" layoutX="420.0" layoutY="14.0" styleClass="common-label" text="Notify users with overdue" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+            <HBox alignment="CENTER" layoutX="347.0" layoutY="368.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXButton onAction="#handleSendNotificationAction" prefHeight="40.0" prefWidth="235.0" text="Send Notification Now" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

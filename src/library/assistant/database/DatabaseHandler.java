@@ -5,13 +5,27 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import library.assistant.iu.listbook.BookListController;
 import library.assistant.iu.listmember.MemberListController;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 public class DatabaseHandler {
+
+    private final static Logger LOGGER = LogManager.getLogger(DatabaseHandler.class.getName());
 
     private static DatabaseHandler handler = null;
 
@@ -19,12 +33,12 @@ public class DatabaseHandler {
     private static Connection conn = null;
     private static Statement stmt = null;
 
-    private DatabaseHandler(){
+    static {
         createConnection();
-        setupBookTable();
-        setupMemberTable();
-        setupIssueTable();
+        inflateDB();
     }
+
+    private DatabaseHandler(){ }
 
     public static DatabaseHandler getInstance(){
 
@@ -34,43 +48,63 @@ public class DatabaseHandler {
         return handler;
     }
 
+    private static void inflateDB() {
+        List<String> tableData = new ArrayList<>();
+        try {
+            Set<String> loadedTables = getDBTables();
+            System.out.println("Already loaded tables " + loadedTables);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document document = dBuilder.parse(DatabaseHandler.class.getClass().getResourceAsStream("/resources/database/tables.xml"));
+            NodeList nodeList = document.getElementsByTagName("table-entry");
+            for (int i = 0; i < nodeList.getLength(); i++){
+                Node node = nodeList.item(i);
+                Element entry = (Element) node;
+                String tableName = entry.getAttribute("name");
+                String query = entry.getAttribute("col-data");
+                if (!loadedTables.contains(tableName.toLowerCase())){
+                    tableData.add(String.format("CREATE TABLE %s (%s)", tableName, query));
+                }
+            }
+
+            if (tableData.isEmpty()){
+                System.out.println("Tables are already loaded");
+            }else {
+                System.out.println("Inflating new tables.");
+                createTables(tableData);
+            }
+
+        } catch (Exception ex) {
+            LOGGER.log(Level.ERROR, "{}", ex);
+        }
+
+    }
+
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn = DriverManager.getConnection(DB_URL);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Can't load database", "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cant load database", "Database Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
 
-    void setupBookTable(){
-        String TABLE_NAME = "BOOK";
-        try{
-
-            stmt = conn.createStatement();
-            DatabaseMetaData dbm = conn.getMetaData();
-
-            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
-            if (tables.next()){
-                System.out.println("Table " + TABLE_NAME + "already exists for go!");
-            }else {
-                stmt.execute("CREATE TABLE " + TABLE_NAME + "("
-                        + "         id varchar(200) primary key,\n"
-                        + "         title varchar(200),\n"
-                        + "         author varchar(200),\n"
-                        + "         publisher varchar(100),\n"
-                        + "         isAvail boolean default true"
-                        +
-                        ")");
-            }
-
-        }catch (SQLException e){
-            System.err.println(e.getMessage() + " ... setupDatabase");
-        }finally {
-
-        }
+    private static Set<String> getDBTables() throws SQLException {
+        Set<String> set = new HashSet<>();
+        DatabaseMetaData dbmeta = conn.getMetaData();
+        readDBTable(set, dbmeta, "TABLE", null);
+        return set;
     }
+
+    private static void readDBTable(Set<String> set, DatabaseMetaData dbmeta, String searchCriteria, String schema) throws SQLException {
+        ResultSet rs = dbmeta.getTables(null, schema, null, new String[]{searchCriteria});
+        while (rs.next()){
+            set.add(rs.getString("TABLE_NAME").toLowerCase());
+        }
+    } {
+    }
+
     public ResultSet execQuery(String query) {
         ResultSet result;
         try {
@@ -101,62 +135,6 @@ public class DatabaseHandler {
         }
     }
 
-    private void setupMemberTable() {
-        String TABLE_NAME = "MEMBER";
-        try{
-            stmt = conn.createStatement();
-
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
-
-            if (tables.next()){
-                System.out.println("Table " + TABLE_NAME + "already exists for go!");
-            }else {
-                stmt.execute("CREATE TABLE " + TABLE_NAME + "("
-                        + "         id varchar(200) primary key,\n"
-                        + "         name varchar(200),\n"
-                        + "         mobile varchar(20),\n"
-                        + "         email varchar(100)\n"
-                        + ")");
-            }
-
-        }catch (SQLException e){
-            System.err.println(e.getMessage() + " ... setupDatabase");
-        }finally {
-
-        }
-
-    }
-
-    private void setupIssueTable() {
-        String TABLE_NAME = "ISSUE";
-        try{
-            stmt = conn.createStatement();
-
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
-
-            if (tables.next()){
-                System.out.println("Table " + TABLE_NAME + "already exists for go!");
-            }else {
-                stmt.execute("CREATE TABLE " + TABLE_NAME + "("
-                        + "         bookID varchar(200) primary key,\n"
-                        + "         memberID varchar(200),\n"
-                        + "         issueTime timestamp default CURRENT_TIMESTAMP,\n"
-                        + "         renew_count integer default 0,\n"
-                        + "         FOREIGN KEY (bookID) REFERENCES BOOK(id),\n"
-                        + "         FOREIGN KEY (memberID) REFERENCES MEMBER(id)"
-                        + ")");
-            }
-
-        }catch (SQLException e){
-            System.err.println(e.getMessage() + " ... setupDatabase");
-        }finally {
-
-        }
-
-    }
-
     public boolean deleteBook(BookListController.Book book){
         try {
         String deleteStatement = "DELETE FROM BOOK WHERE ID = ?";
@@ -169,7 +147,7 @@ public class DatabaseHandler {
             }
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
@@ -187,7 +165,7 @@ public class DatabaseHandler {
                 }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
@@ -202,7 +180,7 @@ public class DatabaseHandler {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
@@ -220,7 +198,7 @@ public class DatabaseHandler {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
@@ -237,7 +215,7 @@ public class DatabaseHandler {
             return (res > 0);
 
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
@@ -254,29 +232,31 @@ public class DatabaseHandler {
             return (res > 0);
 
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
+    }
+
+    public static void main(String[] args) throws Exception{
+        DatabaseHandler.getInstance();
     }
 
     public ObservableList<PieChart.Data> getBookGraphStatistics(){
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         try {
-        String qu1 = "SELECT COUNT(*) FROM BOOK";
-        String qu2 = "SELECT COUNT(*) FROM ISSUE";
-        ResultSet rs = execQuery(qu1);
-        if (rs.next()){
-            int count = rs.getInt(1);
-            data.add(new PieChart.Data("Total Books {" + count + "}", count));
-
-        }
-
-        rs = execQuery(qu2);
+            String qu1 = "SELECT COUNT(*) FROM BOOK";
+            String qu2 = "SELECT COUNT(*) FROM ISSUE";
+            ResultSet rs = execQuery(qu1);
+            if (rs.next()){
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Total Books {" + count + "}", count));
+            }
+            rs = execQuery(qu2);
             if (rs.next()){
                 int count = rs.getInt(1);
                 data.add(new PieChart.Data("Issued Books {" + count + "}", count));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
@@ -290,19 +270,31 @@ public class DatabaseHandler {
             ResultSet rs = execQuery(qu1);
             if (rs.next()){
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Total Members {" + count + "}", count));
-
+                data.add(new PieChart.Data("Total Members (" + count + ")", count));
             }
-
             rs = execQuery(qu2);
             if (rs.next()){
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Members with books {" + count + "}", count));
+                data.add(new PieChart.Data("Active (" + count + ")", count));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
+    }
+
+    private static void createTables(List<String> tableData) throws SQLException{
+        Statement statement = conn.createStatement();
+        statement.closeOnCompletion();
+        for (String command : tableData){
+            System.out.println(command);
+            statement.addBatch(command);
+        }
+        statement.executeBatch();
+    }
+
+    public Connection getConnection(){
+        return conn;
     }
 }
 

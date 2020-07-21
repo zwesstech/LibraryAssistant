@@ -61,10 +61,7 @@ public class BookListController implements Initializable {
     @FXML
     private TableColumn<Book, Boolean> availabilityCol;
 
-    DatabaseHandler handler;
-
     ObservableList<Book> list = FXCollections.observableArrayList();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -180,21 +177,19 @@ public class BookListController implements Initializable {
         private final SimpleStringProperty id;
         private final SimpleStringProperty author;
         private final SimpleStringProperty publisher;
-        private final SimpleBooleanProperty availability;
+        private final SimpleStringProperty availability;
 
         public Book(String title, String id, String author, String pub, Boolean avail){
             this.title = new SimpleStringProperty(title);
             this.id = new SimpleStringProperty(id);
             this.author = new SimpleStringProperty(author);
             this.publisher = new SimpleStringProperty(pub);
-            //remove
-            this.availability = new SimpleBooleanProperty(avail);
             //new edition
-         /*   if (avail){
+            if (avail){
                 this.availability = new SimpleStringProperty("Available");
             }else {
                 this.availability = new SimpleStringProperty("Issued");
-            }*/
+            }
         }
 
         public String getTitle() {
@@ -211,6 +206,10 @@ public class BookListController implements Initializable {
 
         public String getPublisher() {
             return publisher.get();
+        }
+
+        public String getAvailability() {
+            return availability.get();
         }
     }
 }

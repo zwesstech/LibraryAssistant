@@ -25,9 +25,12 @@ public class LibraryAssistantUtil {
         stage.getIcons().add(new Image(IMAGE_LOC));
     }
 
-    public static void loadWindow(URL loc, String title, Stage parentStage) {
+    public static Object loadWindow(URL loc, String title, Stage parentStage) {
+        Object controller = null;
         try {
-            Parent parent = FXMLLoader.load(loc);
+            FXMLLoader loader = new FXMLLoader(loc);
+            Parent parent = loader.load();
+            controller = loader.getController();
             Stage stage = null;
             if (parentStage != null){
                 stage = parentStage;
@@ -37,10 +40,11 @@ public class LibraryAssistantUtil {
             stage.setTitle(title);
             stage.setScene(new Scene(parent));
             stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
+            setStageIcon(stage);
         } catch (IOException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
+        return controller;
     }
 
     public static Float getFineAmount(int totalDays){

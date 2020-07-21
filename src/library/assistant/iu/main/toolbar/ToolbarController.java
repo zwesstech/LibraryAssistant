@@ -3,16 +3,22 @@ package library.assistant.iu.main.toolbar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import library.assistant.iu.callback.BookReturnCallback;
 import library.assistant.util.LibraryAssistantUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ToolbarController implements Initializable {
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
+    private BookReturnCallback callback;
+
+    public void setBookReturnCallback(BookReturnCallback callback){
+        this.callback = callback;
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) { }
 
     @FXML
     public void loadAddMember(ActionEvent actionEvent) {

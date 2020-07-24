@@ -37,6 +37,8 @@ import java.util.logging.Logger;
 
 public class BookListController implements Initializable {
 
+    ObservableList<Book> list = FXCollections.observableArrayList();
+
     @FXML
     private StackPane rootPane;
 
@@ -60,8 +62,6 @@ public class BookListController implements Initializable {
 
     @FXML
     private TableColumn<Book, Boolean> availabilityCol;
-
-    ObservableList<Book> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -184,7 +184,6 @@ public class BookListController implements Initializable {
             this.id = new SimpleStringProperty(id);
             this.author = new SimpleStringProperty(author);
             this.publisher = new SimpleStringProperty(pub);
-            //new edition
             if (avail){
                 this.availability = new SimpleStringProperty("Available");
             }else {

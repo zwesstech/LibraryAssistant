@@ -2,7 +2,6 @@ package library.assistant.settings;
 
 import com.google.gson.Gson;
 import library.assistant.alert.AlertMaker;
-import library.assistant.iu.main.MainController;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.*;
@@ -17,7 +16,7 @@ public class Preferences {
     String username;
     String password;
 
-    public Preferences(){
+    public Preferences() {
         nDaysWithoutFine = 14;
         finePerDay = 2;
         username = "admin";
@@ -55,21 +54,21 @@ public class Preferences {
     public void setPassword(String password) {
         if (password.length() < 16) {
             this.password = DigestUtils.sha1Hex(password);
-        }else {
+        } else {
             this.password = password;
         }
     }
 
-    public static void initConfig(){
+    public static void initConfig() {
         Writer writer = null;
         try {
-        Preferences preferences = new Preferences();
-        Gson gson = new Gson();
+            Preferences preferences = new Preferences();
+            Gson gson = new Gson();
             writer = new FileWriter(CONFIG_FILE);
             gson.toJson(preferences, writer);
         } catch (IOException e) {
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
-        }finally {
+        } finally {
 
             try {
                 writer.close();
@@ -79,7 +78,7 @@ public class Preferences {
         }
     }
 
-    public static Preferences getPreferences(){
+    public static Preferences getPreferences() {
         Gson gson = new Gson();
         Preferences preferences = new Preferences();
 
@@ -87,12 +86,12 @@ public class Preferences {
             preferences = gson.fromJson(new FileReader(CONFIG_FILE), Preferences.class);
         } catch (FileNotFoundException e) {
             initConfig();
-            Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Preferences.class.getName()).info("Config file is missing. Creating new one with default config");
         }
         return preferences;
     }
 
-    public static void writePreferenceToFile(Preferences preferences){
+    public static void writePreferenceToFile(Preferences preferences) {
         Writer writer = null;
         try {
             Gson gson = new Gson();
@@ -102,8 +101,8 @@ public class Preferences {
             AlertMaker.showSimpleAlert("Success", "Settings updated");
         } catch (IOException e) {
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, e);
-            AlertMaker.showErrorMessage(e, "Failed", "Can't save configuration file");
-        }finally {
+            AlertMaker.showErrorMessage(e, "Failed", "Cant save configuration file");
+        } finally {
 
             try {
                 writer.close();

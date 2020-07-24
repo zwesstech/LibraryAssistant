@@ -18,7 +18,6 @@ import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.callback.BookReturnCallback;
 import library.assistant.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
-
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +27,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class IssuedListController implements Initializable {
+
+    private ObservableList<IssueInfo> list = FXCollections.observableArrayList();
+    private BookReturnCallback callback;
 
     @FXML
     private StackPane rootPane;
@@ -59,8 +61,22 @@ public class IssuedListController implements Initializable {
     @FXML
     private TableColumn<IssueInfo, Float> fineCol;
 
-    private ObservableList<IssueInfo> list = FXCollections.observableArrayList();
-    private BookReturnCallback callback;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookID"));
+        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        holderNameCol.setCellValueFactory(new PropertyValueFactory<>("holderName"));
+        issueCol.setCellValueFactory(new PropertyValueFactory<>("dateOfIssue"));
+        daysCol.setCellValueFactory(new PropertyValueFactory<>("days"));
+        fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
+        tableView.setItems(list);
+    }
 
     @FXML
     private void closeStage(ActionEvent event) {
@@ -68,7 +84,7 @@ public class IssuedListController implements Initializable {
     }
 
     @FXML
-   private void handleRefresh(ActionEvent event) {
+    private void handleRefresh(ActionEvent event) {
         loadData();
     }
 
@@ -84,25 +100,6 @@ public class IssuedListController implements Initializable {
         }
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initCol();
-        loadData();
-    }
-
-    private void initCol() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-        holderNameCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-        issueCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
-        daysCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
-        fineCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
-
-        tableView.setItems(list);
-    }
-
     public void setBookReturnCallback(BookReturnCallback callback){
         this.callback = callback;
     }
@@ -115,7 +112,7 @@ public class IssuedListController implements Initializable {
                 + "LEFT OUTER JOIN BOOK\n"
                 + "ON BOOK.id = ISSUE.bookID\n";
         ResultSet rs = handler.execQuery(qu);
-        Preferences pref = Preferences.getPreferences();
+       // Preferences pref = Preferences.getPreferences();
         try {
             int counter = 0;
             while (rs.next()){
@@ -152,6 +149,7 @@ public class IssuedListController implements Initializable {
             this.dateOfIssue = new SimpleStringProperty(dateOfIssue);
             this.nDays = new SimpleIntegerProperty(nDays);
             this.fine = new SimpleFloatProperty(fine);
+            System.out.println(this.nDays.get());
         }
 
         public Integer getId() {
@@ -174,11 +172,11 @@ public class IssuedListController implements Initializable {
             return dateOfIssue.get();
         }
 
-        public int getDays() {
+        public Integer getDays() {
             return nDays.get();
         }
 
-        public float getFine() {
+        public Float getFine() {
             return fine.get();
         }
     }

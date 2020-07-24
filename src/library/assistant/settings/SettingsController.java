@@ -9,14 +9,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import library.assistant.database.DatabaseHandler;
+import library.assistant.database.MailServerInfo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
-    @FXML
-    private StackPane rootContainer;
+    private final static Logger LOGGER = LogManager.getLogger(DatabaseHandler.class.getName());
 
     @FXML
     private JFXTextField nDaysWithoutFine;
@@ -51,11 +54,6 @@ public class SettingsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initDefaultValues();
-    }
-
-    @FXML
-    private void handleCancelButtonAction(ActionEvent event) {
-        ((Stage)nDaysWithoutFine.getScene().getWindow()).close();
     }
 
     @FXML
@@ -103,5 +101,7 @@ public class SettingsController implements Initializable {
     void handleDatabaseExportAction(ActionEvent event) {
 
     }
+
+    //private MailServerInfo readMailServerInfo(){}
 
 }

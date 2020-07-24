@@ -2,7 +2,6 @@ package library.assistant.database;
 
 import library.assistant.data.model.Book;
 import library.assistant.data.model.Member;
-import library.assistant.iu.listbook.BookListController;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -9,12 +9,15 @@ import javafx.stage.StageStyle;
 import library.assistant.iu.main.MainController;
 import library.assistant.settings.Preferences;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class LibraryAssistantUtil {
     public static final String IMAGE_LOC = "/resources/icon.png";
@@ -67,5 +70,21 @@ public class LibraryAssistantUtil {
 
     public static String getDateString(Date date){
         return DATE_FORMAT.format(date);
+    }
+
+    public static boolean validateEmailAddress(String emailID){
+        String regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(emailID).matches();
+    }
+
+    public static void openFileWithDesktop(File file){
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
+        }catch (IOException ex){
+            Logger.getLogger(LibraryAssistantUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

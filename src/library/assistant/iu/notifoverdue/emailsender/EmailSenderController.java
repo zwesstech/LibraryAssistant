@@ -1,16 +1,23 @@
 package library.assistant.iu.notifoverdue.emailsender;
 
 import com.jfoenix.controls.JFXProgressBar;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import library.assistant.alert.AlertMaker;
+import library.assistant.data.callback.GenericCallback;
+import library.assistant.database.DataHelper;
+import library.assistant.database.MailServerInfo;
+import library.assistant.email.EmailUtil;
 import library.assistant.iu.notifoverdue.NotificationItem;
+import library.assistant.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,5 +45,64 @@ public class EmailSenderController implements Initializable {
         }
     }
 
-    public void setNotIfRequestData(){}
+    public void setNotIfRequestData(List<NotificationItem> list){
+        this.list = list;
+    }
+
+    public Stage getStage(){
+        return (Stage) progressBar.getScene().getWindow();
+    }
+
+    public void start(){
+        if (emailText == null || emailText.toString().isEmpty()){
+            AlertMaker.showErrorMessage("Failed", "Failed to parse email format");
+            getStage().close();
+        }
+        new EmailSenderHelper().start();
+    }
+
+     class EmailSenderHelper extends Thread implements GenericCallback {
+
+        private final AtomicBoolean flag =  new AtomicBoolean(true);
+        private final MailServerInfo mailServerInfo = DataHelper.loadMailServerInfo();
+
+        @Override
+        public void run(){
+            final int size = list.size();
+            int count = 0;
+
+            Iterator iterator = list.iterator();
+            while (iterator.hasNext() && flag.get()){
+                count++;
+                NotificationItem item = (NotificationItem) iterator.next();
+                String reportDate = LibraryAssistantUtil.getDateString(new Date());
+                String issueDate = item.getIssueDate();
+                String bookName = item.getBookName();
+                Integer daysUsed = item.getDayCount();
+                String finePerDay = String.valueOf(Preferences.getPreferences().getFinePerDay());
+                String amount = item.getFineAmount();
+                String emailContent = String.format(emailText.toString(), reportDate, bookName, issueDate, daysUsed, finePerDay, amount);
+                EmailUtil.sendMail(mailServerInfo, item.getMemberEmail(), emailContent, "Library Assistant Overdue Notification", this);
+                flag.set(false);
+                updateUI(size, count);
+            }
+            Platform.runLater(() -> {
+                text.setText("Process Completed");
+                progressBar.setProgress(1);
+            });
+        }
+
+        private void updateUI(int size, int count){
+            Platform.runLater(() ->{
+                text.setText(String.format("Notifying %d/%d", count, size));
+                progressBar.setProgress((double) count / (double) size);
+            });
+        }
+
+        @Override
+        public Object taskCompleted(Object val) {
+            flag.set(true);
+            return null;
+        }
+    }
 }

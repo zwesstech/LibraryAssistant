@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import library.assistant.database.MailServerInfo;
+import library.assistant.email.EmailUtil;
 import library.assistant.util.LibraryAssistantUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +23,7 @@ public class TestMailController implements Initializable {
     private MailServerInfo mailServerInfo;
 
     @FXML
-    private JFXTextField recepientAddressInput;
+    private JFXTextField recipientAddressInput;
 
     @FXML
     private JFXProgressBar progressBar;
@@ -35,8 +36,8 @@ public class TestMailController implements Initializable {
 
     @FXML
     void handleStartAction(ActionEvent event) {
-        String toAdress = recepientAddressInput.getText();
-        if (LibraryAssistantUtil.validateEmailAddress(toAdress)){
+        String toAddress = recipientAddressInput.getText();
+        if (LibraryAssistantUtil.validateEmailAddress(toAddress)){
 
         }
 

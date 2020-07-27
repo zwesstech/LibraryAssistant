@@ -170,6 +170,15 @@
      -fx-fill: derive(-fx-secondary, -5%)
  }
 
+ /*About window*/
+ .about-button{
+     -fx-border-color: transparent;
+ }
+
+ .about-text{
+     -fx-fill: -fx-secondary;
+ }
+
  /*Custom window background*/
  .custom-pane{
      -fx-background-color: derive(-fx-primary, 5%);

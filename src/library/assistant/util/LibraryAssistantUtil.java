@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 public class LibraryAssistantUtil {
     public static final String IMAGE_LOC = "/resources/icon.png";
+    public static final String MAIL_CONTENT_LOC = "/resources/mail_content.html";
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 

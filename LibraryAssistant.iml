@@ -17,5 +17,9 @@
     <orderEntry type="library" name="log4j-api-2.11.0" level="project" />
     <orderEntry type="library" name="log4j-core-2.11.0" level="project" />
     <orderEntry type="library" name="javax.mail-1.6.1" level="project" />
+    <orderEntry type="library" name="commons-logging-1.2" level="project" />
+    <orderEntry type="library" name="commons-csv-1.4" level="project" />
+    <orderEntry type="library" name="slf4j-simple-1.7.25" level="project" />
+    <orderEntry type="library" name="guava-21.0" level="project" />
   </component>
 </module>

@@ -1,20 +1,30 @@
 package library.assistant.util;
 
+import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import library.assistant.alert.AlertMaker;
+import library.assistant.export.pdf.ListToPDF;
 import library.assistant.iu.main.MainController;
 import library.assistant.settings.Preferences;
 
 import java.awt.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -59,6 +69,29 @@ public class LibraryAssistantUtil {
             fine = fineDays * pref.getFinePerDay();
         }
         return fine;
+    }
+
+    public static void initPDFExport(StackPane rootPane, Node contentPane, Stage stage, List<List> data){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as PDF");
+        FileChooser.ExtensionFilter extensionFilter
+                = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File saveLoc = fileChooser.showSaveDialog(stage);
+        ListToPDF listToPDF = new ListToPDF();
+        boolean flag = listToPDF.doPrintToPdf(data, saveLoc, ListToPDF.Orientation.LANDSCAPE);
+        JFXButton okayBtn = new JFXButton("Okay");
+        JFXButton openBtn = new JFXButton("View File");
+        openBtn.setOnAction((ActionEvent event1) -> {
+            try {
+                Desktop.getDesktop().open(saveLoc);
+            }catch (Exception ex){
+                AlertMaker.showErrorMessage("Could not load file", "Cant load file");
+            }
+        });
+        if (flag){
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(okayBtn, openBtn), "Completed", "Member data has been exported.");
+        }
     }
 
     public static String formatDateTimeString(Date date){

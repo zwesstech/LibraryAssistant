@@ -48,8 +48,8 @@ public class DataHelper {
 
     public static boolean isBookExists(String id){
         try{
-            String checkstmt = "SELECT COUNT(*) FROM BOOK WHERE id=?";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
+            String checkStmt = "SELECT COUNT(*) FROM BOOK WHERE id=?";
+            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkStmt);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
@@ -65,8 +65,8 @@ public class DataHelper {
 
     public static boolean isMemberExists(String id){
         try{
-            String checkstmt = "SELECT COUNT(*) FROM MEMBER WHERE id=?";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
+            String checkStmt = "SELECT COUNT(*) FROM MEMBER WHERE id=?";
+            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkStmt);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
@@ -120,8 +120,8 @@ public class DataHelper {
 
     public static MailServerInfo loadMailServerInfo(){
         try{
-            String checkstmt = "SELECT * FROM MAIL_SERVER_INFO WHERE id=?";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
+            String checkStmt = "SELECT * FROM MAIL_SERVER_INFO WHERE id=?";
+            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkStmt);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
                 String mailServer = rs.getString("server_name");

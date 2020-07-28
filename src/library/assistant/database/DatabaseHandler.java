@@ -92,13 +92,13 @@ public class DatabaseHandler {
 
     private static Set<String> getDBTables() throws SQLException {
         Set<String> set = new HashSet<>();
-        DatabaseMetaData dbmeta = conn.getMetaData();
-        readDBTable(set, dbmeta, "TABLE", null);
+        DatabaseMetaData dbMeta = conn.getMetaData();
+        readDBTable(set, dbMeta, "TABLE", null);
         return set;
     }
 
-    private static void readDBTable(Set<String> set, DatabaseMetaData dbmeta, String searchCriteria, String schema) throws SQLException {
-        ResultSet rs = dbmeta.getTables(null, schema, null, new String[]{searchCriteria});
+    private static void readDBTable(Set<String> set, DatabaseMetaData dbMeta, String searchCriteria, String schema) throws SQLException {
+        ResultSet rs = dbMeta.getTables(null, schema, null, new String[]{searchCriteria});
         while (rs.next()){
             set.add(rs.getString("TABLE_NAME").toLowerCase());
         }
@@ -154,8 +154,8 @@ public class DatabaseHandler {
 
     public boolean isBookAlreadyIssued(BookListController.Book book){
         try {
-            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE bookid=?";
-            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            String checkStmt = "SELECT COUNT(*) FROM ISSUE WHERE bookid=?";
+            PreparedStatement stmt = conn.prepareStatement(checkStmt);
             stmt.setString(1, book.getId());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
@@ -187,8 +187,8 @@ public class DatabaseHandler {
 
     public boolean isMemberHasAnyBooks(MemberListController.Member member){
         try {
-            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE memberID=?";
-            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            String checkStmt = "SELECT COUNT(*) FROM ISSUE WHERE memberID=?";
+            PreparedStatement stmt = conn.prepareStatement(checkStmt);
             stmt.setString(1, member.getId());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){

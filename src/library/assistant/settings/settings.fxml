@@ -105,11 +105,11 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab onSelectionChanged="#handleDatabaseExportAction" styleClass="settings-tab" text="Export">
+            <Tab styleClass="settings-tab" text="Export">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="custom-pane">
                      <children>
-                        <JFXButton layoutX="198.0" layoutY="92.0" prefHeight="60.0" prefWidth="185.0" text="Export Database" />
+                        <JFXButton layoutX="198.0" layoutY="92.0" onAction="#handleDatabaseExportAction" prefHeight="60.0" prefWidth="185.0" text="Export Database" />
                         <JFXSpinner fx:id="progressSpinner" layoutX="272.0" layoutY="180.0" visible="false" />
                      </children>
                   </AnchorPane>

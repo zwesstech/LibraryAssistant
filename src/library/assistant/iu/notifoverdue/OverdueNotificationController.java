@@ -20,9 +20,9 @@ import javafx.util.Callback;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DataHelper;
 import library.assistant.database.DatabaseHandler;
-import library.assistant.database.MailServerInfo;
+import library.assistant.data.model.MailServerInfo;
 import library.assistant.iu.notifoverdue.emailsender.EmailSenderController;
-import library.assistant.settings.Preferences;
+import library.assistant.iu.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 
 import java.net.URL;

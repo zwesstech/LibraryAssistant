@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="rootContainer" prefHeight="450.0" prefWidth="580.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.settings.SettingsController">
+<StackPane fx:id="rootContainer" prefHeight="450.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.settings.SettingsController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="checkbox-main" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -118,4 +119,7 @@
         </tabs>
       </TabPane>
    </children>
+   <stylesheets>
+      <URL value="@../../../../resources/dark-theme.css" />
+   </stylesheets>
 </StackPane>

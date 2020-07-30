@@ -1,4 +1,4 @@
-package library.assistant.settings;
+package library.assistant.iu.settings;
 
 import com.google.gson.Gson;
 import library.assistant.alert.AlertMaker;

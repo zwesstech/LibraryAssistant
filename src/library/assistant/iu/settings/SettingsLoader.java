@@ -1,4 +1,4 @@
-package library.assistant.settings;
+package library.assistant.iu.settings;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ import library.assistant.database.DatabaseHandler;
 public class SettingsLoader extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/library/assistant/settings/settings.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/library/assistant/iu/settings/settings.fxml"));
         primaryStage.setTitle("Settings");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

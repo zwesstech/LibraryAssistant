@@ -16,7 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.callback.BookReturnCallback;
-import library.assistant.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 import java.net.URL;
 import java.sql.ResultSet;

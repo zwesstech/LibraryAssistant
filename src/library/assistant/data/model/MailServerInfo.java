@@ -8,7 +8,7 @@ public class MailServerInfo {
     private String password;
     private Boolean sslEnabled;
 
-    public MailServerInfo(String mailServer, Integer port, String emailID, String password, Boolean sslEnabled) {
+    public MailServerInfo(String mailServer, Integer port, String emailID, String password, Boolean sslEnabled){
         this.mailServer = mailServer;
         this.port = port;
         this.emailID = emailID;
@@ -43,6 +43,6 @@ public class MailServerInfo {
 
     public boolean validate(){
         boolean flag = mailServer == null || mailServer.isEmpty() || port == null || emailID == null || emailID.isEmpty() || password.isEmpty();
-        return !flag;
+        return flag;
     }
 }

@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import library.assistant.alert.AlertMaker;
 import library.assistant.data.callback.GenericCallback;
-import library.assistant.database.MailServerInfo;
+import library.assistant.data.model.MailServerInfo;
 import library.assistant.email.EmailUtil;
 import library.assistant.util.LibraryAssistantUtil;
 import org.apache.logging.log4j.Level;

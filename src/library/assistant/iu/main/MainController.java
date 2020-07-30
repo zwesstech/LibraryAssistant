@@ -1,8 +1,6 @@
 package library.assistant.iu.main;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.events.JFXDialogEvent;
-import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 
 import javafx.collections.FXCollections;
@@ -10,16 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -41,7 +35,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -175,7 +168,7 @@ public class MainController implements Initializable, BookReturnCallback {
         ResultSet rs = DataHelper.getBookInfoWithIssueData(id);
         Boolean flag = false;
         try {
-            if (rs.next()) {
+            while (rs.next()) {
                 String bName = rs.getString("title");
                 String bAuthor = rs.getString("author");
                 Boolean bStatus = rs.getBoolean("isAvail");
@@ -456,7 +449,7 @@ public class MainController implements Initializable, BookReturnCallback {
 
     @FXML
     void handleMenuSettings(ActionEvent event) {
-        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/settings/settings.fxml"), "Settings", null);
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/settings/settings.fxml"), "Settings", null);
     }
 
     @FXML

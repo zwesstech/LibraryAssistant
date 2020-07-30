@@ -2,7 +2,7 @@ package library.assistant.email;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 import library.assistant.data.callback.GenericCallback;
-import library.assistant.database.MailServerInfo;
+import library.assistant.data.model.MailServerInfo;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

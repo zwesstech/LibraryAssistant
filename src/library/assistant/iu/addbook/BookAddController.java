@@ -10,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.assistant.alert.AlertMaker;
+import library.assistant.data.model.Book;
+import library.assistant.database.DataHelper;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.listbook.BookListController;
 
@@ -55,18 +57,16 @@ public class BookAddController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         databaseHandler = DatabaseHandler.getInstance();
-
-        checkData();
     }
 
     @FXML
-    void addBook(ActionEvent event) {
+    private void addBook(ActionEvent event) {
         String bookID = id.getText();
         String bookAuthor = author.getText();
         String bookName = title.getText();
         String bookPublisher = publisher.getText();
 
-        if (bookID.isEmpty()||bookAuthor.isEmpty()||bookName.isEmpty()||bookPublisher.isEmpty()){
+        if (bookID.isEmpty() || bookAuthor.isEmpty() || bookName.isEmpty()) {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Insufficient Data", "Please enter data in all fields.");
             return;
         }
@@ -75,28 +75,8 @@ public class BookAddController implements Initializable {
                 return;
             }
 
-        //remove this part
-        String qu = "INSERT INTO BOOK VALUES ("+
-                "'" + bookID +"',"+
-                "'" + bookName +"',"+
-                "'" + bookAuthor +"',"+
-                "'" + bookPublisher +"',"+
-                "" + "true" +""+
-                ")";
-        System.out.println(qu);
-        if (databaseHandler.execAction(qu)){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Success");
-            alert.showAndWait();
-        }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Failed");
-            alert.showAndWait();
-
-          /*  if (DataHelper.isBookExists(bookID)){
-                AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate book id", "Book with same Book ID exists.\nPlease use new IDs");
+            if (DataHelper.isBookExists(bookID)){
+                AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate book id", "Book with same Book ID exists.\nPlease use new ID");
                 return;
             }
             Book book = new Book(bookID, bookName, bookAuthor, bookPublisher, Boolean.TRUE);
@@ -106,9 +86,8 @@ public class BookAddController implements Initializable {
                 clearEntries();
             }else {
                 AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Failed to add new book", "Check all the entries and try again");
-            }*/
+            }
         }
-    }
 
     @FXML
     void cancel(ActionEvent event) {

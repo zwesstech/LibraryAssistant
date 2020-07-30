@@ -22,7 +22,7 @@ public class AboutController implements Initializable {
 
     private static final String LINKED_IN = "https://www.linkedin.com";
     private static final String FACEBOOK = "https://www.facebook.com";
-    private static final String WEBSITE =   "https://www.genuinecoder.com";
+    private static final String GITHUB =   "https://www.github.com";
     private static final String YOUTUBE =   "https://www.youtube.com";
 
     @Override
@@ -52,8 +52,8 @@ public class AboutController implements Initializable {
     }
 
     @FXML
-    void loadBlog(ActionEvent event) {
-        loadWebPage(WEBSITE);
+    void loadGithub(ActionEvent event) {
+        loadWebPage(GITHUB);
     }
 
     @FXML

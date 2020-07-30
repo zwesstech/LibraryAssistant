@@ -1,4 +1,4 @@
-package library.assistant.settings;
+package library.assistant.iu.settings;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -7,13 +7,12 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DataHelper;
 import library.assistant.database.DatabaseHandler;
-import library.assistant.database.MailServerInfo;
+import library.assistant.data.model.MailServerInfo;
 import library.assistant.database.export.DatabaseExporter;
 import library.assistant.util.LibraryAssistantUtil;
 import org.apache.logging.log4j.Level;

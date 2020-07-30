@@ -47,11 +47,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public Boolean getAvail() {
+    public Boolean getAvailability() {
         return isAvail;
     }
 
-    public void setAvail(Boolean avail) {
-        isAvail = avail;
+    public void setIsAvail(Boolean isAvail) {
+        isAvail = isAvail;
     }
 }

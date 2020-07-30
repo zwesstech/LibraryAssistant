@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
 import library.assistant.export.pdf.ListToPDF;
 import library.assistant.iu.main.MainController;
-import library.assistant.settings.Preferences;
+import library.assistant.iu.settings.Preferences;
 
 import java.awt.*;
 
@@ -30,13 +30,13 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class LibraryAssistantUtil {
-    public static final String IMAGE_LOC = "/resources/icon.png";
+    public static final String ICON_IMAGE_LOC = "/resources/icon.png";
     public static final String MAIL_CONTENT_LOC = "/resources/mail_content.html";
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     public static void setStageIcon(Stage stage){
-        stage.getIcons().add(new Image(IMAGE_LOC));
+        stage.getIcons().add(new Image(ICON_IMAGE_LOC));
     }
 
     public static Object loadWindow(URL loc, String title, Stage parentStage) {

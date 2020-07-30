@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 import library.assistant.alert.AlertMaker;
 import library.assistant.data.callback.GenericCallback;
 import library.assistant.database.DataHelper;
-import library.assistant.database.MailServerInfo;
+import library.assistant.data.model.MailServerInfo;
 import library.assistant.email.EmailUtil;
 import library.assistant.iu.notifoverdue.NotificationItem;
-import library.assistant.settings.Preferences;
+import library.assistant.iu.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 
 import java.net.URL;

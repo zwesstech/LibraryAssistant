@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import library.assistant.iu.addbook.LibraryAssistant;
 import library.assistant.util.LibraryAssistantUtil;
 
 import javax.imageio.ImageIO;
@@ -30,6 +29,7 @@ public class AlertMaker {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
+        alert.setContentText(content);
         styleAlert(alert);
         alert.showAndWait();
     }
@@ -145,8 +145,13 @@ public class AlertMaker {
     public static void showTrayMessage(String title, String message){
         try {
             SystemTray tray = SystemTray.getSystemTray();
-            BufferedImage image = ImageIO.read(AlertMaker.class.getResource(LibraryAssistantUtil.IMAGE_LOC));
+            BufferedImage image = ImageIO.read(AlertMaker.class.getResource(LibraryAssistantUtil.ICON_IMAGE_LOC));
             TrayIcon trayIcon = new TrayIcon(image, "Library Assistant");
+            trayIcon.setImageAutoSize(true);
+            trayIcon.setToolTip("Library Assistant");
+            tray.add(trayIcon);
+            trayIcon.displayMessage(title, message, TrayIcon.MessageType.INFO);
+            tray.remove(trayIcon);
         }catch (Exception exp){
             exp.printStackTrace();
         }

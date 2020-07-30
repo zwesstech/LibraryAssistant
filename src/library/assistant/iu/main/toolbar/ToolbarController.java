@@ -40,7 +40,7 @@ public class ToolbarController implements Initializable {
     }
     @FXML
     private void loadSettings(ActionEvent actionEvent) {
-        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/settings/settings.fxml"), "Settings", null);
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/iu/settings/settings.fxml"), "Settings", null);
     }
 
     @FXML

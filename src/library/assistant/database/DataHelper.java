@@ -1,6 +1,7 @@
 package library.assistant.database;
 
 import library.assistant.data.model.Book;
+import library.assistant.data.model.MailServerInfo;
 import library.assistant.data.model.Member;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ public class DataHelper {
             statement.setString(2, book.getTitle());
             statement.setString(3, book.getAuthor());
             statement.setString(4, book.getPublisher());
-            statement.setBoolean(5, book.getAvail());
+            statement.setBoolean(5, book.getAvailability());
             return statement.executeUpdate() > 0;
         }catch (SQLException ex){
             LOGGER.log(Level.ERROR, "()", ex);
@@ -88,7 +89,7 @@ public class DataHelper {
             ResultSet rs = stmt.executeQuery();
             return rs;
         }catch (SQLException ex){
-
+            LOGGER.log(Level.ERROR, "()", ex);
         }
         return null;
     }
@@ -96,6 +97,7 @@ public class DataHelper {
     public static void wipeTable(String tableName){
         try {
             Statement statement = DatabaseHandler.getInstance().getConnection().createStatement();
+            statement.execute("DELETE FROM " + tableName + " WHERE TRUE");
         }catch (SQLException e){
             LOGGER.log(Level.ERROR, "()", e);
         }
@@ -110,7 +112,7 @@ public class DataHelper {
             statement.setInt(2, mailServerInfo.getPort());
             statement.setString(3, mailServerInfo.getEmailID());
             statement.setString(4, mailServerInfo.getPassword());
-            statement.setBoolean(4, mailServerInfo.getSslEnabled());
+            statement.setBoolean(5, mailServerInfo.getSslEnabled());
             return statement.executeUpdate() > 0;
         } catch (SQLException ex) {
             LOGGER.log(Level.ERROR, "()", ex);

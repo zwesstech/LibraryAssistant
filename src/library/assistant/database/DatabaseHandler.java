@@ -38,11 +38,12 @@ public class DatabaseHandler {
         inflateDB();
     }
 
-    private DatabaseHandler(){ }
+    private DatabaseHandler() {
+    }
 
-    public static DatabaseHandler getInstance(){
+    public static DatabaseHandler getInstance() {
 
-        if (handler == null){
+        if (handler == null) {
             handler = new DatabaseHandler();
         }
         return handler;
@@ -55,21 +56,21 @@ public class DatabaseHandler {
             System.out.println("Already loaded tables " + loadedTables);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document document = dBuilder.parse(DatabaseHandler.class.getClass().getResourceAsStream("/resources/database/tables.xml"));
-            NodeList nodeList = document.getElementsByTagName("table-entry");
-            for (int i = 0; i < nodeList.getLength(); i++){
+            Document doc = dBuilder.parse(DatabaseHandler.class.getClass().getResourceAsStream("/resources/database/tables.xml"));
+            NodeList nodeList = doc.getElementsByTagName("table-entry");
+            for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 Element entry = (Element) node;
                 String tableName = entry.getAttribute("name");
                 String query = entry.getAttribute("col-data");
-                if (!loadedTables.contains(tableName.toLowerCase())){
+                if (!loadedTables.contains(tableName.toLowerCase())) {
                     tableData.add(String.format("CREATE TABLE %s (%s)", tableName, query));
                 }
             }
 
-            if (tableData.isEmpty()){
+            if (tableData.isEmpty()) {
                 System.out.println("Tables are already loaded");
-            }else {
+            } else {
                 System.out.println("Inflating new tables.");
                 createTables(tableData);
             }
@@ -99,10 +100,12 @@ public class DatabaseHandler {
 
     private static void readDBTable(Set<String> set, DatabaseMetaData dbMeta, String searchCriteria, String schema) throws SQLException {
         ResultSet rs = dbMeta.getTables(null, schema, null, new String[]{searchCriteria});
-        while (rs.next()){
+        while (rs.next()) {
             set.add(rs.getString("TABLE_NAME").toLowerCase());
         }
-    } {
+    }
+
+    {
     }
 
     public ResultSet execQuery(String query) {
@@ -110,12 +113,10 @@ public class DatabaseHandler {
         try {
             stmt = conn.createStatement();
             result = stmt.executeQuery(query);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Exception at execQuery:dataHandler" + ex.getLocalizedMessage());
             return null;
-        }
-        finally {
+        } finally {
         }
         return result;
     }
@@ -125,45 +126,41 @@ public class DatabaseHandler {
             stmt = conn.createStatement();
             stmt.execute(qu);
             return true;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error:" + ex.getMessage(), "Error Occured", JOptionPane.ERROR_MESSAGE);
             System.out.println("Exception at execQuery:dataHandler" + ex.getLocalizedMessage());
             return false;
-        }
-        finally {
+        } finally {
         }
     }
 
-    public boolean deleteBook(BookListController.Book book){
+    public boolean deleteBook(BookListController.Book book) {
         try {
-        String deleteStatement = "DELETE FROM BOOK WHERE ID = ?";
+            String deleteStatement = "DELETE FROM BOOK WHERE ID = ?";
 
             PreparedStatement stmt = conn.prepareStatement(deleteStatement);
             stmt.setString(1, book.getId());
             int res = stmt.executeUpdate();
-            if (res == 1){
+            if (res == 1) {
                 return true;
             }
-            return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
 
-    public boolean isBookAlreadyIssued(BookListController.Book book){
+    public boolean isBookAlreadyIssued(BookListController.Book book) {
         try {
             String checkStmt = "SELECT COUNT(*) FROM ISSUE WHERE bookid=?";
             PreparedStatement stmt = conn.prepareStatement(checkStmt);
             stmt.setString(1, book.getId());
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
                 System.out.println(count);
                 return (count > 0);
-                }
-
+            }
         } catch (SQLException ex) {
             LOGGER.log(Level.ERROR, "{}", ex);
         }
@@ -176,7 +173,7 @@ public class DatabaseHandler {
             PreparedStatement stmt = conn.prepareStatement(deleteStatement);
             stmt.setString(1, member.getId());
             int res = stmt.executeUpdate();
-            if (res == 1){
+            if (res == 1) {
                 return true;
             }
         } catch (SQLException ex) {
@@ -185,25 +182,24 @@ public class DatabaseHandler {
         return false;
     }
 
-    public boolean isMemberHasAnyBooks(MemberListController.Member member){
+    public boolean isMemberHasAnyBooks(MemberListController.Member member) {
         try {
             String checkStmt = "SELECT COUNT(*) FROM ISSUE WHERE memberID=?";
             PreparedStatement stmt = conn.prepareStatement(checkStmt);
             stmt.setString(1, member.getId());
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
                 System.out.println(count);
                 return (count > 0);
             }
-
         } catch (SQLException ex) {
             LOGGER.log(Level.ERROR, "{}", ex);
         }
         return false;
     }
 
-    public boolean updateBook(BookListController.Book book){
+    public boolean updateBook(BookListController.Book book) {
         try {
             String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";
             PreparedStatement stmt = conn.prepareStatement(update);
@@ -220,7 +216,7 @@ public class DatabaseHandler {
         return false;
     }
 
-    public boolean updateMember(MemberListController.Member member){
+    public boolean updateMember(MemberListController.Member member) {
         try {
             String update = "UPDATE MEMBER SET NAME=?, EMAIL=?, MOBILE=? WHERE ID=?";
             PreparedStatement stmt = conn.prepareStatement(update);
@@ -237,24 +233,24 @@ public class DatabaseHandler {
         return false;
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         DatabaseHandler.getInstance();
     }
 
-    public ObservableList<PieChart.Data> getBookGraphStatistics(){
+    public ObservableList<PieChart.Data> getBookGraphStatistics() {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         try {
             String qu1 = "SELECT COUNT(*) FROM BOOK";
             String qu2 = "SELECT COUNT(*) FROM ISSUE";
             ResultSet rs = execQuery(qu1);
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Total Books {" + count + "}", count));
+                data.add(new PieChart.Data("Total Books (" + count + ")", count));
             }
             rs = execQuery(qu2);
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Issued Books {" + count + "}", count));
+                data.add(new PieChart.Data("Issued Books (" + count + ")", count));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,18 +258,18 @@ public class DatabaseHandler {
         return data;
     }
 
-    public ObservableList<PieChart.Data> getMemberGraphStatistics(){
+    public ObservableList<PieChart.Data> getMemberGraphStatistics() {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         try {
             String qu1 = "SELECT COUNT(*) FROM MEMBER";
             String qu2 = "SELECT COUNT(DISTINCT memberID) FROM ISSUE";
             ResultSet rs = execQuery(qu1);
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
                 data.add(new PieChart.Data("Total Members (" + count + ")", count));
             }
             rs = execQuery(qu2);
-            if (rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
                 data.add(new PieChart.Data("Active (" + count + ")", count));
             }
@@ -283,17 +279,17 @@ public class DatabaseHandler {
         return data;
     }
 
-    private static void createTables(List<String> tableData) throws SQLException{
+    private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
         statement.closeOnCompletion();
-        for (String command : tableData){
+        for (String command : tableData) {
             System.out.println(command);
             statement.addBatch(command);
         }
         statement.executeBatch();
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return conn;
     }
 }

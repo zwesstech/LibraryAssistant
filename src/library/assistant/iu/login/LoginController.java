@@ -8,11 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.assistant.iu.main.MainController;
-import library.assistant.settings.Preferences;
+import library.assistant.iu.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 

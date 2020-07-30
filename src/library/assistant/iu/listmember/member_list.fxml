@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-
 <StackPane fx:id="rootPane" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.iu.listmember.MemberListController">
    <children>
       <AnchorPane fx:id="contentPane" prefHeight="450.0" prefWidth="700.0" stylesheets="@../../../../resources/dark-theme.css">
@@ -38,7 +37,8 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Close" />
+                    <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Export as PDF" />
+                        <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Close" />
                   </items>
                 </Menu>
               </menus>

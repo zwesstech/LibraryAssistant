@@ -106,7 +106,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <JFXButton fx:id="btnIssue" onAction="#loadIssueOperation" prefWidth="150.0" styleClass="login-button" text="Issue" />
+                                                <JFXButton fx:id="btnIssue" onAction="#loadIssueOperation" onKeyPressed="#handleIssueButtonKeyPress" prefWidth="150.0" styleClass="login-button" text="Issue" />
                                              </children>
                                           </HBox>
                                        </children>

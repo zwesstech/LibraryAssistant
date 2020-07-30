@@ -10,6 +10,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,12 +66,6 @@ public class MainController implements Initializable, BookReturnCallback {
     private Tab renewTab;
 
     @FXML
-    private HBox book_info;
-
-    @FXML
-    private HBox member_info;
-
-    @FXML
     private TextField bookIDInput;
 
     @FXML
@@ -92,9 +88,6 @@ public class MainController implements Initializable, BookReturnCallback {
 
     @FXML
     private JFXTextField bookID;
-
-    @FXML
-    private ListView<String> issueDataList;
 
     @FXML
     private JFXHamburger hamburger;
@@ -227,6 +220,7 @@ public class MainController implements Initializable, BookReturnCallback {
 
                 flag = true;
             }
+
             if (!flag) {
                 memberName.setText(NO_SUCH_MEMBER_AVAILABLE);
             } else {
@@ -294,7 +288,7 @@ public class MainController implements Initializable, BookReturnCallback {
     @FXML
     private void loadBookInfoTwo(ActionEvent event) {
         clearEntries();
-       // ObservableList<String> issueData = FXCollections.observableArrayList();
+        // ObservableList<String> issueData = FXCollections.observableArrayList();
         isReadyForSubmission = false;
 
         try {
@@ -302,7 +296,7 @@ public class MainController implements Initializable, BookReturnCallback {
             String id = bookID.getText();
             String myQuery = "SELECT ISSUE.bookID, ISSUE.memberID, ISSUE.issueTime, ISSUE.renew_count,\n"
                     + "MEMBER.name, MEMBER.mobile, MEMBER.email,\n"
-                    + "BOOK.title, BOOK.author, BOOK.publisher, BOOK.isAvail\n"
+                    + "BOOK.title, BOOK.author, BOOK.publisher\n"
                     + "FROM ISSUE\n"
                     + "LEFT JOIN MEMBER\n"
                     + "ON ISSUE.memberID=MEMBER.ID\n"
@@ -503,15 +497,12 @@ public class MainController implements Initializable, BookReturnCallback {
         memberNameHolder.setText("");
         memberEmailHolder.setText("");
         memberContactHolder.setText("");
-
         bookNameHolder.setText("");
         bookAuthorHolder.setText("");
         bookPublisherHolder.setText("");
-
         issueDateHolder.setText("");
         numberDaysHolder.setText("");
         fineInfoHolder.setText("");
-
         disableEnableControls(false);
         submissionDataContainer.setOpacity(0);
     }
@@ -543,13 +534,10 @@ public class MainController implements Initializable, BookReturnCallback {
         memberInfoContainer.getChildren().add(memberChart);
         bookInfoContainer.getChildren().add(bookChart);
 
-        bookIssueTab.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                clearIssueEntries();
-                if (bookIssueTab.isSelected()) {
-                    refreshGraphs();
-                }
+        bookIssueTab.setOnSelectionChanged((Event event) -> {
+            clearIssueEntries();
+            if (bookIssueTab.isSelected()) {
+                refreshGraphs();
             }
         });
     }
@@ -585,6 +573,13 @@ public class MainController implements Initializable, BookReturnCallback {
         getStage().toFront();
         if (drawer.isOpened()) {
             drawer.close();
+        }
+    }
+
+    @FXML
+    private void handleIssueButtonKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            loadIssueOperation(null);
         }
     }
 

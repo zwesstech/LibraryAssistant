@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.addbook.BookAddController;
+import library.assistant.iu.listmember.MemberListController;
 import library.assistant.iu.main.MainController;
 import library.assistant.util.LibraryAssistantUtil;
 
@@ -30,8 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -69,7 +69,7 @@ public class BookListController implements Initializable {
         loadData();
     }
 
-    private Stage getStage(){
+    private Stage getStage() {
         return (Stage) tableView.getScene().getWindow();
     }
 
@@ -88,7 +88,7 @@ public class BookListController implements Initializable {
         String qu = "SELECT * FROM BOOK";
         ResultSet rs = handler.execQuery(qu);
         try {
-            while (rs.next()){
+            while (rs.next()) {
                 String titles = rs.getString("title");
                 String author = rs.getString("author");
                 String id = rs.getString("id");
@@ -106,13 +106,13 @@ public class BookListController implements Initializable {
 
     @FXML
     void handleBookDeleteOption(ActionEvent event) {
-
-        Book selectedForDeletion =  tableView.getSelectionModel().getSelectedItem();
-        if (selectedForDeletion == null){
-            AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion");
+        //Fetch selected row
+        Book selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
+        if (selectedForDeletion == null) {
+            AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion.");
             return;
         }
-        if (DatabaseHandler.getInstance().isBookAlreadyIssued(selectedForDeletion)){
+        if (DatabaseHandler.getInstance().isBookAlreadyIssued(selectedForDeletion)) {
             AlertMaker.showErrorMessage("Cant be deleted", "This book is already issued and cant be deleted.");
             return;
         }
@@ -120,25 +120,25 @@ public class BookListController implements Initializable {
         alert.setTitle("Deleting Book");
         alert.setContentText("Are you sure you want to delete the book: " + selectedForDeletion.getTitle() + " ?");
         Optional<ButtonType> answer = alert.showAndWait();
-        if (answer.get() == ButtonType.OK){
+        if (answer.get() == ButtonType.OK) {
             Boolean result = DatabaseHandler.getInstance().deleteBook(selectedForDeletion);
-            if (result){
+            if (result) {
                 AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getTitle() + " was deleted successfully.");
                 list.remove(selectedForDeletion);
-            }else {
+            } else {
                 AlertMaker.showSimpleAlert("failed", selectedForDeletion.getTitle() + " could not be deleted");
             }
 
-        }else {
+        } else {
             AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
         }
     }
 
     @FXML
     void handleBookEditOption(ActionEvent event) {
-
-        Book selectedForEdit =  tableView.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null){
+        //Fetch selected row
+        Book selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+        if (selectedForEdit == null) {
 
             AlertMaker.showErrorMessage("No book selected", "Please select a book to Edit");
             return;
@@ -154,17 +154,15 @@ public class BookListController implements Initializable {
             stage.setTitle("Edit Book");
             stage.setScene(new Scene(parent));
             stage.show();
-
             LibraryAssistantUtil.setStageIcon(stage);
 
-            stage.setOnCloseRequest((e)->{
+            stage.setOnCloseRequest((e) -> {
                 handleRefresh(new ActionEvent());
             });
 
         } catch (IOException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
-
     }
 
     @FXML
@@ -172,21 +170,42 @@ public class BookListController implements Initializable {
         loadData();
     }
 
-    public static class Book{
+    @FXML
+    void exportAsPDF(ActionEvent event) {
+        List<List> printData = new ArrayList<>();
+        String[] headers = {"   Title    ", "ID", " Author ", " Publisher ", "Avail"};
+        printData.add(Arrays.asList(headers));
+        for (Book book : list){
+            List<String> row = new ArrayList<>();
+            row.add(book.getTitle());
+            row.add(book.getAuthor());
+            row.add(book.getPublisher());
+            row.add(book.getAvailability());
+            printData.add(row);
+        }
+        LibraryAssistantUtil.initPDFExport(rootPane, contentPane, getStage(), printData);
+    }
+
+    @FXML
+    void closeStage(ActionEvent event) {
+        getStage().close();
+    }
+
+    public static class Book {
         private final SimpleStringProperty title;
         private final SimpleStringProperty id;
         private final SimpleStringProperty author;
         private final SimpleStringProperty publisher;
         private final SimpleStringProperty availability;
 
-        public Book(String title, String id, String author, String pub, Boolean avail){
+        public Book(String title, String id, String author, String pub, Boolean avail) {
             this.title = new SimpleStringProperty(title);
             this.id = new SimpleStringProperty(id);
             this.author = new SimpleStringProperty(author);
             this.publisher = new SimpleStringProperty(pub);
-            if (avail){
+            if (avail) {
                 this.availability = new SimpleStringProperty("Available");
-            }else {
+            } else {
                 this.availability = new SimpleStringProperty("Issued");
             }
         }

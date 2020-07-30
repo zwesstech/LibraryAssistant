@@ -36,7 +36,8 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Close" />
+                    <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Export as PDF" />
+                        <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Close" />
                   </items>
                 </Menu>
               </menus>

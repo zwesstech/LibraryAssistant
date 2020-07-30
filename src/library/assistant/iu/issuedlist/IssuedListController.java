@@ -17,12 +17,12 @@ import javafx.stage.Stage;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.iu.callback.BookReturnCallback;
 import library.assistant.util.LibraryAssistantUtil;
+
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class IssuedListController implements Initializable {
@@ -77,9 +77,8 @@ public class IssuedListController implements Initializable {
         tableView.setItems(list);
     }
 
-    @FXML
-    private void closeStage(ActionEvent event) {
-        getStage().close();
+    public void setBookReturnCallback(BookReturnCallback callback) {
+        this.callback = callback;
     }
 
     @FXML
@@ -87,20 +86,40 @@ public class IssuedListController implements Initializable {
         loadData();
     }
 
-    private Stage getStage(){
+    @FXML
+    void exportAsPDF(ActionEvent event) {
+        List<List> printData = new ArrayList<>();
+        String[] headers = {"S1", "BOOK ID", "      BOOK NAME    ", "   HOLDER NAME    ", "ISSUE DATE", "DAYS ELAPSED", "FINE"};
+        printData.add(Arrays.asList(headers));
+        for (IssueInfo info : list) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(info.getId()));
+            row.add(info.getBookID());
+            row.add(info.getBookName());
+            row.add(info.getHolderName());
+            row.add(info.getDateOfIssue());
+            row.add(String.valueOf(info.getDays()));
+            row.add(String.valueOf(info.getFine()));
+            printData.add(row);
+        }
+        LibraryAssistantUtil.initPDFExport(rootPane, contentPane, getStage(), printData);
+    }
+
+    @FXML
+    private void closeStage(ActionEvent event) {
+        getStage().close();
+    }
+
+    private Stage getStage() {
         return (Stage) tableView.getScene().getWindow();
     }
 
     @FXML
     void handleReturn(ActionEvent event) {
         IssueInfo issueInfo = tableView.getSelectionModel().getSelectedItem();
-        if (issueInfo != null){
+        if (issueInfo != null) {
             callback.loadBookReturn(issueInfo.getBookID());
         }
-    }
-
-    public void setBookReturnCallback(BookReturnCallback callback){
-        this.callback = callback;
     }
 
     private void loadData() {
@@ -111,10 +130,10 @@ public class IssuedListController implements Initializable {
                 + "LEFT OUTER JOIN BOOK\n"
                 + "ON BOOK.id = ISSUE.bookID\n";
         ResultSet rs = handler.execQuery(qu);
-       // Preferences pref = Preferences.getPreferences();
+        // Preferences pref = Preferences.getPreferences();
         try {
             int counter = 0;
-            while (rs.next()){
+            while (rs.next()) {
                 counter += 1;
                 String memberName = rs.getString("name");
                 String bookID = rs.getString("bookID");
@@ -126,12 +145,13 @@ public class IssuedListController implements Initializable {
                 IssueInfo issueInfo = new IssueInfo(counter, bookID, bookTitle, memberName, LibraryAssistantUtil.formatDateTimeString(new Date(issueTime.getTime())), days, fine);
                 list.add(issueInfo);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static class IssueInfo{
+    public static class IssueInfo {
+
         private final SimpleIntegerProperty id;
         private final SimpleStringProperty bookID;
         private final SimpleStringProperty bookName;
@@ -140,7 +160,7 @@ public class IssuedListController implements Initializable {
         private final SimpleIntegerProperty nDays;
         private final SimpleFloatProperty fine;
 
-        public IssueInfo(int id, String  bookID, String bookName, String holderName, String dateOfIssue, Integer nDays, float fine){
+        public IssueInfo(int id, String bookID, String bookName, String holderName, String dateOfIssue, Integer nDays, float fine) {
             this.id = new SimpleIntegerProperty(id);
             this.bookID = new SimpleStringProperty(bookID);
             this.bookName = new SimpleStringProperty(bookName);

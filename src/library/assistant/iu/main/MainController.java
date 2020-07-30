@@ -42,16 +42,6 @@ import java.util.logging.Logger;
 
 public class MainController implements Initializable, BookReturnCallback {
 
-    private static final String BOOK_NOT_AVAILABLE = "Not Available";
-    private static final String NO_SUCH_BOOK_AVAILABLE = "No Such Book Available";
-    private static final String NO_SUCH_MEMBER_AVAILABLE = "No Such Member Available";
-    private static final String BOOK_AVAILABLE = "Available";
-
-    private Boolean isReadyForSubmission = false;
-    private DatabaseHandler databaseHandler;
-    private PieChart bookChart;
-    private PieChart memberChart;
-
     @FXML
     private StackPane rootPane;
 
@@ -151,6 +141,16 @@ public class MainController implements Initializable, BookReturnCallback {
     @FXML
     private Text fineInfoHolder;
 
+    private static final String BOOK_NOT_AVAILABLE = "Not Available";
+    private static final String NO_SUCH_BOOK_AVAILABLE = "No Such Book Available";
+    private static final String NO_SUCH_MEMBER_AVAILABLE = "No Such Member Available";
+    private static final String BOOK_AVAILABLE = "Available";
+
+    private Boolean isReadyForSubmission = false;
+    private DatabaseHandler databaseHandler;
+    private PieChart bookChart;
+    private PieChart memberChart;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -168,7 +168,7 @@ public class MainController implements Initializable, BookReturnCallback {
         ResultSet rs = DataHelper.getBookInfoWithIssueData(id);
         Boolean flag = false;
         try {
-            while (rs.next()) {
+            if (rs.next()) {
                 String bName = rs.getString("title");
                 String bAuthor = rs.getString("author");
                 Boolean bStatus = rs.getBoolean("isAvail");
@@ -294,7 +294,7 @@ public class MainController implements Initializable, BookReturnCallback {
     @FXML
     private void loadBookInfoTwo(ActionEvent event) {
         clearEntries();
-        ObservableList<String> issueData = FXCollections.observableArrayList();
+       // ObservableList<String> issueData = FXCollections.observableArrayList();
         isReadyForSubmission = false;
 
         try {

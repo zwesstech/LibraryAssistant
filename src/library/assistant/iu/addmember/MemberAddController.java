@@ -1,11 +1,9 @@
 package library.assistant.iu.addmember;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -20,8 +18,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MemberAddController implements Initializable {
-
-    private DatabaseHandler handler;
 
     @FXML
     private StackPane rootPane;
@@ -41,23 +37,13 @@ public class MemberAddController implements Initializable {
     @FXML
     private JFXTextField email;
 
-    @FXML
-    private JFXButton saveButton;
-
-    @FXML
-    private JFXButton cancelButton;
-
     private Boolean isInEditMode = Boolean.FALSE;
+
+    private DatabaseHandler databaseHandler;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        handler = DatabaseHandler.getInstance();
-    }
-
-    @FXML
-    private void cancel(ActionEvent event) {
-        Stage stage = (Stage) rootPane.getScene().getWindow();
-        stage.close();
+        databaseHandler = DatabaseHandler.getInstance();
     }
 
     @FXML
@@ -79,7 +65,7 @@ public class MemberAddController implements Initializable {
         }
 
         if (DataHelper.isMemberExists(mID)) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate member id", "Member with same id exists.\nPlease use new ID.");
+            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate member id", "Member with same id exists.\nPlease use new ID");
             return;
         }
 
@@ -94,12 +80,17 @@ public class MemberAddController implements Initializable {
 
     }
 
+    @FXML
+    private void cancel(ActionEvent event) {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.close();
+    }
+
     public void inflateUI(MemberListController.Member member) {
         name.setText(member.getName());
         id.setText(member.getId());
         mobile.setText(member.getMobile());
         email.setText(member.getEmail());
-
         id.setEditable(false);
         isInEditMode = Boolean.TRUE;
 

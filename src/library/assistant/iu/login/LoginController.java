@@ -14,14 +14,17 @@ import library.assistant.iu.main.MainController;
 import library.assistant.iu.settings.Preferences;
 import library.assistant.util.LibraryAssistantUtil;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginController implements Initializable {
+
+    private final static Logger LOGGER = LogManager.getLogger(LoginController.class.getName());
 
     @FXML
     private JFXTextField username;
@@ -39,11 +42,12 @@ public class LoginController implements Initializable {
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
         String uname = username.getText();
-        String pword = DigestUtils.sha1Hex(password.getText());
+        String pword = DigestUtils.shaHex(password.getText());
 
         if (uname.equals(preferences.getUsername()) && pword.equals(preferences.getPassword())){
             closeStage();
             loadMain();
+            LOGGER.log(Level.INFO, "User successfully logged in ()", uname);
         }else {
             username.getStyleClass().add("wrong-credentials");
             password.getStyleClass().add("wrong-credentials");
@@ -66,11 +70,10 @@ public class LoginController implements Initializable {
             stage.setTitle("Library Assistant");
             stage.setScene(new Scene(parent));
             stage.show();
-
             LibraryAssistantUtil.setStageIcon(stage);
 
         } catch (IOException e) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+            LOGGER.log(Level.ERROR, "()", e);
         }
     }
 

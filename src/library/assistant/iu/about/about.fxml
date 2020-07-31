@@ -12,10 +12,10 @@
    <children>
       <VBox layoutX="300.0" layoutY="18.0" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
          <children>
-            <JFXButton onAction="#loadYoutubeChannel" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="YouTube Channel" />
+            <JFXButton onAction="#loadYoutubeChannel" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="YouTube" />
             <JFXButton layoutX="10.0" layoutY="10.0" onAction="#loadGithub" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="GitHub" />
             <JFXButton layoutX="10.0" layoutY="10.0" onAction="#loadLinkedIn" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="LinkedIn" />
-            <JFXButton layoutX="10.0" layoutY="55.0" onAction="#loadFacebook" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="Facebook Page" />
+            <JFXButton layoutX="10.0" layoutY="55.0" onAction="#loadFacebook" prefHeight="40.0" prefWidth="200.0" styleClass="about-button" text="Facebook " />
          </children>
       </VBox>
       <ImageView fitHeight="155.0" fitWidth="250.0" layoutX="-12.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">

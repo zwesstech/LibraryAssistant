@@ -130,7 +130,6 @@ public class IssuedListController implements Initializable {
                 + "LEFT OUTER JOIN BOOK\n"
                 + "ON BOOK.id = ISSUE.bookID\n";
         ResultSet rs = handler.execQuery(qu);
-        // Preferences pref = Preferences.getPreferences();
         try {
             int counter = 0;
             while (rs.next()) {
